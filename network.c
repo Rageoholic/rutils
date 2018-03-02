@@ -328,18 +328,18 @@ int DestroySocket(Socket sock)
   return close(sock._s);
 }
 
-Length TCPSendData(Socket sock, const void *buf, size_t len)
+ssize_t TCPSendData(Socket sock, const void *buf, size_t len)
 {
   return send(sock._s, buf, len, 0);
 }
 
-Length TCPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags)
+ssize_t TCPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags)
 {
   return recv(sock._s, buf, len, ReadFlagsToRecvFlags(flags));
 }
 
-Length UDPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags,
-                   SockAddr *theirAddr)
+ssize_t UDPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags,
+                    SockAddr *theirAddr)
 {
   SockAddr lTheirAddr;
 
@@ -361,7 +361,7 @@ Length UDPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags,
   return ret;
 }
 
-Length UDPSendData(Socket sock, const void *buf, size_t len, SockAddr s)
+ssize_t UDPSendData(Socket sock, const void *buf, size_t len, SockAddr s)
 {
   return sendto(sock._s, buf, len, 0, s._s, s._len);
 }

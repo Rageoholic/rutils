@@ -204,7 +204,7 @@ const char *SockAddrToStr(SockAddr *addr, char *dst);
   len: length of buf
 */
 
-Length TCPSendData(Socket sockfd, const void *buf, size_t len);
+ssize_t TCPSendData(Socket sockfd, const void *buf, size_t len);
 
 /*
   func: TCPRecvData
@@ -223,7 +223,7 @@ Length TCPSendData(Socket sockfd, const void *buf, size_t len);
   flags: Flags we want to set. See ReadFlags for docs on what flags mean
 */
 
-Length TCPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags);
+ssize_t TCPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags);
 
 /*
   func: UDPSendData
@@ -242,8 +242,8 @@ Length TCPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags);
   theirAddr: An AddrInfo giving the SockAddr of the server to connect to
 */
 
-Length UDPSendData(Socket sockfd, const void *buf, size_t len,
-                   SockAddr theirAddr);
+ssize_t UDPSendData(Socket sockfd, const void *buf, size_t len,
+                    SockAddr theirAddr);
 
 /*
   func: UDPRecvData
@@ -264,8 +264,8 @@ Length UDPSendData(Socket sockfd, const void *buf, size_t len,
   theirAddr: A pointer to a SockAddr to fill with data
 */
 
-Length UDPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags,
-                   SockAddr *theirAddr);
+ssize_t UDPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags,
+                    SockAddr *theirAddr);
 
 /* Accessors */
 

@@ -28,4 +28,5 @@ typedef int ReadFlags; /* Set of flags for reading files. See
   0x02 /* ReadFlags: Don't block on reading                                    \
           data from the descriptor */
 
+typedef int64_t ssize_t;
 #endif

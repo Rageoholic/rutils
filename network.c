@@ -314,7 +314,7 @@ Socket AcceptConnection(Socket sock, SockAddr *theirAddr)
     theirAddr->_len = SOCKADDR_LENGTH_DEFAULT;
   }
   socklen_t addrLen = theirAddr ? SOCKADDR_LENGTH_DEFAULT : 0;
-  Socket r = {accept(sock._s, (struct sockaddr *)&theirAddr, &addrLen)};
+  Socket r = {accept(sock._s, (struct sockaddr *)theirAddr->_s, &addrLen)};
   return r;
 }
 

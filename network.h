@@ -275,7 +275,7 @@ IpVer GetIpVer(AddrInfo a);
 
 const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength);
 
-inline bool IsValidSocket(Socket sock)
+static inline bool IsValidSocket(Socket sock)
 {
   return sock._s != -1;
 }

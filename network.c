@@ -183,7 +183,7 @@ Socket CreateUDPTalkerSocket(const char *name, const char *port,
     }
 
     AITSTuple udpconn = AddrInfoToSocket(servInfo);
-
+    assert(udpconn.p != NULL);
     theirAddr->_len = udpconn.p->ai_addrlen;
     theirAddr->_s = malloc(theirAddr->_len);
     memcpy(theirAddr->_s, udpconn.p->ai_addr, theirAddr->_len);
@@ -309,15 +309,20 @@ void DestroyAddrInfo(AddrInfo a)
 
 Socket AcceptConnection(Socket sock, SockAddr *theirAddr)
 {
-    if (theirAddr != NULL)
+    if (theirAddr != NULL && theirAddr->_s != NULL)
     {
-        /* Initialize the theirAddr. */
-        theirAddr->_s = malloc(SOCKADDR_LENGTH_DEFAULT);
+    /* Initialize the theirAddr. */
 
+#ifndef __clang_analyzer__
+        theirAddr->_s = malloc(sizeof(struct sockaddr_storage));
+#endif
         theirAddr->_len = SOCKADDR_LENGTH_DEFAULT;
     }
+
+    _SockAddr *a = theirAddr ? theirAddr->_s : NULL;
+
     socklen_t addrLen = theirAddr ? SOCKADDR_LENGTH_DEFAULT : 0;
-    Socket r = {accept(sock._s, (struct sockaddr *)theirAddr->_s, &addrLen)};
+    Socket r = {accept(sock._s, a, &addrLen)};
     return r;
 }
 
@@ -344,10 +349,11 @@ ssize_t TCPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags)
 ssize_t UDPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags,
                     SockAddr *theirAddr)
 {
-    SockAddr lTheirAddr;
+    SockAddr lTheirAddr = {};
 
+#ifndef __clang_analyzer__
     lTheirAddr._s = malloc(sizeof(struct sockaddr_storage));
-
+#endif
     lTheirAddr._len = sizeof(struct sockaddr_storage);
 
     socklen_t socklen = lTheirAddr._len;

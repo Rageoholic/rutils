@@ -349,24 +349,19 @@ ssize_t TCPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags)
 ssize_t UDPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags,
                     SockAddr *theirAddr)
 {
-    SockAddr lTheirAddr = {};
 
+    if (theirAddr && !theirAddr->_s)
+    {
 #ifndef __clang_analyzer__
-    lTheirAddr._s = malloc(sizeof(struct sockaddr_storage));
+        theirAddr->_s = malloc(sizeof(struct sockaddr_storage));
 #endif
-    lTheirAddr._len = sizeof(struct sockaddr_storage);
-
-    socklen_t socklen = lTheirAddr._len;
-    int ret = recvfrom(sock._s, buf, len, flags, lTheirAddr._s, &socklen);
-
-    if (theirAddr != NULL)
-    {
-        *theirAddr = lTheirAddr;
+        theirAddr->_len = sizeof(struct sockaddr_storage);
     }
-    else
-    {
-        free(lTheirAddr._s);
-    }
+    _SockAddr *lTheirAddr = theirAddr ? theirAddr->_s : NULL;
+
+    socklen_t socklen = theirAddr ? theirAddr->_len : 0;
+    int ret = recvfrom(sock._s, buf, len, flags, lTheirAddr, &socklen);
+
     return ret;
 }
 

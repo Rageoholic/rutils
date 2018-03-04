@@ -11,15 +11,16 @@
 
 typedef struct
 {
-  const int _s;
+    const int _s;
 } Socket;
 
 typedef enum {
-  TCP, /* Safe guaranteed transfer */
-  UDP  /* Unsafe non-guaranteed transfer */
+    TCP, /* Safe guaranteed transfer */
+    UDP  /* Unsafe non-guaranteed transfer */
 } ConnType;
 
-typedef enum { SERVER, CLIENT } Role;
+typedef enum { SERVER,
+               CLIENT } Role;
 
 typedef int64_t Length;
 
@@ -29,11 +30,13 @@ typedef struct sockaddr _SockAddr;
 
 typedef struct len_with_sockaddr
 {
-  _SockAddr *_s;
-  size_t _len;
+    _SockAddr *_s;
+    size_t _len;
 } SockAddr;
 
-typedef enum ipver { IPV4, IPV6, NO_SPEC } IpVer;
+typedef enum ipver { IPV4,
+                     IPV6,
+                     NO_SPEC } IpVer;
 
 /* Functions */
 
@@ -277,7 +280,7 @@ const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength);
 
 static inline bool IsValidSocket(Socket sock)
 {
-  return sock._s != -1;
+    return sock._s != -1;
 }
 
 void PrintError(char *errstr);

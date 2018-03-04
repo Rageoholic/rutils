@@ -7,7 +7,7 @@ typedef int PID;
 
 typedef struct pid_status
 {
-  PID pid;
+    PID pid;
 
 } PIDStatus;
 
@@ -17,10 +17,10 @@ typedef int SignalFlags; /* Set of signal flags for
                             program. See defines with
                             SignalFlags */
 
-#define SF_RESTART                                                             \
-  0x01 /* SignalFlags: Functions will not                                      \
-          fail with EINTR if they would, they                                  \
-          will retry */
+#define SF_RESTART                              \
+    0x01 /* SignalFlags: Functions will not     \
+            fail with EINTR if they would, they \
+            will retry */
 
 typedef void (*SignalHandler)(int);
 

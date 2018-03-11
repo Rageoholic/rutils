@@ -37,14 +37,16 @@ String *CreateString(char *cstr)
     str->len = len;
     strcpy(str->str, cstr);
 
+    str->capacity = len;
+
     return str;
 }
 
-String *CreateStringEx(char *cstr, String *str, size_t len)
+String *InitString(char *cstr, String *str)
 {
     assert(str != NULL); /* UB. Officially not my fucking
 			    problem */
-    size_t l = strcpyi(str->str, cstr, len);
+    size_t l = strcpyi(str->str, cstr, str->capacity);
 
     str->len = l;
 

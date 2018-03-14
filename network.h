@@ -9,11 +9,6 @@
 
 #define MAX_ADDR_STR_LEN 46
 
-typedef struct
-{
-    const int _s;
-} Socket;
-
 typedef enum {
     TCP, /* Safe guaranteed transfer */
     UDP  /* Unsafe non-guaranteed transfer */
@@ -28,6 +23,24 @@ typedef struct addrinfo _AddrInfo, *AddrInfo;
 
 typedef struct sockaddr _SockAddr;
 
+typedef struct
+{
+    const int _s;
+} Socket;
+
+typedef struct
+{
+    Socket _s;
+} TCPSocket;
+
+typedef struct
+{
+    Socket _s;
+} UDPListenerSocket;
+typedef struct
+{
+    Socket _s;
+} UDPTalkerSocket;
 typedef struct len_with_sockaddr
 {
     _SockAddr *_s;
@@ -38,7 +51,7 @@ typedef enum ipver { IPV4,
                      IPV6,
                      NO_SPEC } IpVer;
 
-#define MAX_CONN_BACKLOG 128 	/* TODO: make this actually get the maximum connection backlog */
+#define MAX_CONN_BACKLOG 128 /* TODO: make this actually get the maximum connection backlog */
 
 /* Functions */
 
@@ -52,7 +65,7 @@ typedef enum ipver { IPV4,
   port: a character representation of the port you wish to bind to
 */
 
-Socket CreateTCPServerSocket(const char *port, int connBacklog);
+TCPSocket CreateTCPServerSocket(const char *port, int connBacklog);
 
 /*
   func: CreateTCPClientSocket
@@ -70,8 +83,8 @@ Socket CreateTCPServerSocket(const char *port, int connBacklog);
   point to an actual AddrInfo. Pass NULL if you couldn't give a shit.
 */
 
-Socket CreateTCPClientSocket(const char *name, const char *port,
-                             AddrInfo *givenServInfo);
+TCPSocket CreateTCPClientSocket(const char *name, const char *port,
+                                AddrInfo *givenServInfo);
 
 /*
   func: CreateUDPListenerSocket
@@ -82,7 +95,7 @@ Socket CreateTCPClientSocket(const char *name, const char *port,
 
   port: a character representation of the port you wish to bind to
 */
-Socket CreateUDPListenerSocket(const char *port);
+UDPListenerSocket CreateUDPListenerSocket(const char *port);
 
 /*
   func: CreateUDPTalkerSocket
@@ -98,8 +111,8 @@ Socket CreateUDPListenerSocket(const char *port);
   servInfo: A pointer to fill out with the pointer to our AddrInfos
   WARNING: Cannot be NULL. If its NULL you can't send data
 */
-Socket CreateUDPTalkerSocket(const char *name, const char *port,
-                             SockAddr *theirAddr);
+UDPTalkerSocket CreateUDPTalkerSocket(const char *name, const char *port,
+                                      SockAddr *theirAddr);
 /*
   func: GetAddrInfo
 
@@ -160,9 +173,9 @@ Socket BindToAddrInfo(AddrInfo a);
   a: AddrInfo to connect to
 */
 
-int ListenToTCPSocket(Socket sockfd, int connBacklog);
+int ListenToTCPSocket(TCPSocket sock, int connBacklog);
 
-Socket ConnectToTCPSocket(AddrInfo a);
+TCPSocket ConnectToTCPSocket(AddrInfo a);
 
 /*
   func: AcceptConnection
@@ -171,13 +184,13 @@ Socket ConnectToTCPSocket(AddrInfo a);
 
   args
 
-  sockfd: The socket we want to accept from
+  sock: The socket we want to accept from
 
   theirAddr: If NULL this is ignored. If not NULL fill in the pointer
   this points with a pointer to their SockAddr
 */
 
-Socket AcceptConnection(Socket sockfd, SockAddr *theirAddr);
+TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr);
 
 /*
   func: SockAddrToStr
@@ -202,14 +215,14 @@ const char *SockAddrToStr(SockAddr *addr, char *dst);
 
   args
 
-  sockfd: Socket to send data over
+  sock: Socket to send data over
 
   buf: data to send
 
   len: length of buf
 */
 
-ssize_t TCPSendData(Socket sockfd, const void *buf, size_t len);
+ssize_t TCPSendData(TCPSocket sock, const void *buf, size_t len);
 
 /*
   func: TCPRecvData
@@ -219,7 +232,7 @@ ssize_t TCPSendData(Socket sockfd, const void *buf, size_t len);
 
   args
 
-  sockfd: Socket to send data over
+  sock: Socket to send data over
 
   buf: Buffer to read data into
 
@@ -228,7 +241,7 @@ ssize_t TCPSendData(Socket sockfd, const void *buf, size_t len);
   flags: Flags we want to set. See ReadFlags for docs on what flags mean
 */
 
-ssize_t TCPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags);
+ssize_t TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags);
 
 /*
   func: UDPSendData
@@ -238,7 +251,7 @@ ssize_t TCPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags);
 
   args
 
-  sockfd: Socket to send data over
+  sock: Socket to send data over
 
   buf: data to send
 
@@ -247,7 +260,7 @@ ssize_t TCPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags);
   theirAddr: An AddrInfo giving the SockAddr of the server to connect to
 */
 
-ssize_t UDPSendData(Socket sockfd, const void *buf, size_t len,
+ssize_t UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len,
                     SockAddr theirAddr);
 
 /*
@@ -258,7 +271,7 @@ ssize_t UDPSendData(Socket sockfd, const void *buf, size_t len,
 
   args
 
-  sockfd: socket to recieve data over
+  sock: socket to recieve data over
 
   buf: Buffer of data to fill out
 
@@ -269,7 +282,7 @@ ssize_t UDPSendData(Socket sockfd, const void *buf, size_t len,
   theirAddr: A pointer to a SockAddr to fill with data
 */
 
-ssize_t UDPRecvData(Socket sockfd, void *buf, size_t len, ReadFlags flags,
+ssize_t UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
                     SockAddr *theirAddr);
 
 /* Accessors */
@@ -292,6 +305,6 @@ void DestroyAddrInfo(AddrInfo a);
 
 void DestroySockAddr(SockAddr s);
 
-int DestroySocket(Socket sockfd);
+int DestroySocket(Socket sock);
 
 #endif

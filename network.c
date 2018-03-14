@@ -92,11 +92,11 @@ local AITSTuple AddrInfoToSocket(AddrInfo a)
     return ret;
 }
 
-Socket CreateTCPServerSocket(const char *port, int connBacklog)
+TCPSocket CreateTCPServerSocket(const char *port, int connBacklog)
 {
     AddrInfo servInfo;
 
-    Socket inval = {-1};
+    TCPSocket inval = {{-1}};
     int rv;
     if ((rv = GetAddrInfo(SERVER, TCP, NULL, port, &servInfo)) != 0)
     {
@@ -112,18 +112,18 @@ Socket CreateTCPServerSocket(const char *port, int connBacklog)
     }
     DestroyAddrInfo(servInfo);
 
-    if (ListenToTCPSocket(sock, connBacklog) == -1)
+    TCPSocket tsock = {sock};
+    if (ListenToTCPSocket(tsock, connBacklog) == -1)
     {
         perror("CreateTCPServerSocket");
         DestroySocket(sock);
         return inval;
     }
-
-    return sock;
+    return tsock;
 }
 
-Socket CreateTCPClientSocket(const char *name, const char *port,
-                             AddrInfo *givenServInfo)
+TCPSocket CreateTCPClientSocket(const char *name, const char *port,
+                                AddrInfo *givenServInfo)
 {
     AddrInfo altServInfo = NULL;
 
@@ -140,11 +140,11 @@ Socket CreateTCPClientSocket(const char *name, const char *port,
     if ((rv = GetAddrInfo(CLIENT, TCP, name, port, servInfo)) != 0)
     {
         fprintf(stderr, "%s\n", GaiError(rv));
-        Socket inval = {-1};
+        TCPSocket inval = {{-1}};
         return inval;
     }
 
-    Socket sock = ConnectToTCPSocket(*servInfo);
+    TCPSocket sock = ConnectToTCPSocket(*servInfo);
     if (altServInfo != NULL)
     {
         DestroyAddrInfo(altServInfo);
@@ -152,7 +152,7 @@ Socket CreateTCPClientSocket(const char *name, const char *port,
     return sock;
 }
 
-Socket CreateUDPListenerSocket(const char *port)
+UDPListenerSocket CreateUDPListenerSocket(const char *port)
 {
     AddrInfo servInfo;
 
@@ -160,17 +160,17 @@ Socket CreateUDPListenerSocket(const char *port)
     if ((rv = GetAddrInfo(SERVER, UDP, NULL, port, &servInfo)) != 0)
     {
         fprintf(stderr, "%s\n", GaiError(rv));
-        Socket inval = {-1};
+        UDPListenerSocket inval = {{-1}};
         return inval;
     }
 
-    Socket sock = BindToAddrInfo(servInfo);
+    UDPListenerSocket sock = {BindToAddrInfo(servInfo)};
     DestroyAddrInfo(servInfo);
     return sock;
 }
 
-Socket CreateUDPTalkerSocket(const char *name, const char *port,
-                             SockAddr *theirAddr)
+UDPTalkerSocket CreateUDPTalkerSocket(const char *name, const char *port,
+                                      SockAddr *theirAddr)
 {
     assert(theirAddr != NULL);
 
@@ -179,7 +179,7 @@ Socket CreateUDPTalkerSocket(const char *name, const char *port,
     if ((rv = GetAddrInfo(CLIENT, UDP, name, port, &servInfo)) != 0)
     {
         fprintf(stderr, "%s\n", GaiError(rv));
-        Socket inval = {-1};
+        UDPTalkerSocket inval = {{-1}};
         return inval;
     }
 
@@ -190,7 +190,8 @@ Socket CreateUDPTalkerSocket(const char *name, const char *port,
     memcpy(theirAddr->_s, udpconn.p->ai_addr, theirAddr->_len);
 
     DestroyAddrInfo(servInfo);
-    return udpconn.s;
+    UDPTalkerSocket s = {udpconn.s};
+    return s;
 }
 
 int GetAddrInfo(Role role, ConnType connType, const char *name,
@@ -244,7 +245,7 @@ Socket BindToAddrInfo(AddrInfo a)
     return inval;
 }
 
-int ListenToTCPSocket(Socket sock, int connBacklog)
+int ListenToTCPSocket(TCPSocket sock, int connBacklog)
 {
     if (listen(sock._s, connBacklog) == -1)
     {
@@ -256,27 +257,27 @@ int ListenToTCPSocket(Socket sock, int connBacklog)
     }
 }
 
-Socket ConnectToTCPSocket(AddrInfo a)
+TCPSocket ConnectToTCPSocket(AddrInfo a)
 {
     for (AddrInfo p = a; p != NULL; p = NextAddrInfo(p))
     {
-        Socket sock = {socket(p->ai_family, p->ai_socktype, p->ai_protocol)};
-        if (sock._s == -1)
+        TCPSocket sock = {{socket(p->ai_family, p->ai_socktype, p->ai_protocol)}};
+        if (sock._s._s == -1)
         {
             perror("ConnectToSocket: socket");
             continue;
         }
 
-        if (connect(sock._s, p->ai_addr, p->ai_addrlen) == -1)
+        if (connect(sock._s._s, p->ai_addr, p->ai_addrlen) == -1)
         {
-            DestroySocket(sock);
+            DestroySocket(sock._s);
             perror("ConnectToSocket: connect");
             continue;
         }
 
         return sock;
     }
-    Socket inval = {-1};
+    TCPSocket inval = {{-1}};
     return inval;
 }
 
@@ -308,7 +309,7 @@ void DestroyAddrInfo(AddrInfo a)
     freeaddrinfo(a);
 }
 
-Socket AcceptConnection(Socket sock, SockAddr *theirAddr)
+TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr)
 {
     if (theirAddr != NULL && theirAddr->_s != NULL)
     {
@@ -323,7 +324,7 @@ Socket AcceptConnection(Socket sock, SockAddr *theirAddr)
     _SockAddr *a = theirAddr ? theirAddr->_s : NULL;
 
     socklen_t addrLen = theirAddr ? SOCKADDR_LENGTH_DEFAULT : 0;
-    Socket r = {accept(sock._s, a, &addrLen)};
+    TCPSocket r = {{accept(sock._s._s, a, &addrLen)}};
     return r;
 }
 
@@ -337,17 +338,17 @@ int DestroySocket(Socket sock)
     return close(sock._s);
 }
 
-ssize_t TCPSendData(Socket sock, const void *buf, size_t len)
+ssize_t TCPSendData(TCPSocket sock, const void *buf, size_t len)
 {
-    return send(sock._s, buf, len, 0);
+    return send(sock._s._s, buf, len, 0);
 }
 
-ssize_t TCPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags)
+ssize_t TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags)
 {
-    return recv(sock._s, buf, len, ReadFlagsToRecvFlags(flags));
+    return recv(sock._s._s, buf, len, ReadFlagsToRecvFlags(flags));
 }
 
-ssize_t UDPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags,
+ssize_t UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
                     SockAddr *theirAddr)
 {
 
@@ -361,14 +362,14 @@ ssize_t UDPRecvData(Socket sock, void *buf, size_t len, ReadFlags flags,
     _SockAddr *lTheirAddr = theirAddr ? theirAddr->_s : NULL;
 
     socklen_t socklen = theirAddr ? theirAddr->_len : 0;
-    int ret = recvfrom(sock._s, buf, len, flags, lTheirAddr, &socklen);
+    int ret = recvfrom(sock._s._s, buf, len, flags, lTheirAddr, &socklen);
 
     return ret;
 }
 
-ssize_t UDPSendData(Socket sock, const void *buf, size_t len, SockAddr s)
+ssize_t UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len, SockAddr s)
 {
-    return sendto(sock._s, buf, len, 0, s._s, s._len);
+    return sendto(sock._s._s, buf, len, 0, s._s, s._len);
 }
 
 void PrintError(char *error)

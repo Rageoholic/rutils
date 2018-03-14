@@ -38,6 +38,8 @@ typedef enum ipver { IPV4,
                      IPV6,
                      NO_SPEC } IpVer;
 
+#define MAX_CONN_BACKLOG 128 	/* TODO: make this actually get the maximum connection backlog */
+
 /* Functions */
 
 /*

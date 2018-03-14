@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include <arpa/inet.h>
+#include <errno.h>
 #include <netdb.h>
 #include <stdlib.h>
 #include <string.h>
@@ -113,7 +114,7 @@ Socket CreateTCPServerSocket(const char *port, int connBacklog)
 
     if (ListenToTCPSocket(sock, connBacklog) == -1)
     {
-        perror("CreateTCPServerSocket: ListenToTCPSocket");
+        perror("CreateTCPServerSocket");
         DestroySocket(sock);
         return inval;
     }

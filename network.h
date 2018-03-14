@@ -293,10 +293,13 @@ IpVer GetIpVer(AddrInfo a);
 
 const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength);
 
-static inline bool IsValidSocket(Socket sock)
-{
-    return sock._s != -1;
-}
+bool IsValidSocket(Socket sock);
+
+bool IsValidTCPSocket(TCPSocket sock);
+
+bool IsValidUDPTalkerSocket(UDPTalkerSocket sock);
+
+bool IsValidUDPListenerSocket(UDPListenerSocket sock);
 
 void PrintError(char *errstr);
 
@@ -307,4 +310,9 @@ void DestroySockAddr(SockAddr s);
 
 int DestroySocket(Socket sock);
 
+int DestroyUDPListenerSocket(UDPListenerSocket sock);
+
+int DestroyUDPTalkerSocket(UDPTalkerSocket sock);
+
+int DestroyTCPSocket(TCPSocket sock);
 #endif

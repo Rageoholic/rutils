@@ -247,7 +247,7 @@ Socket BindToAddrInfo(AddrInfo a)
 
 int ListenToTCPSocket(TCPSocket sock, int connBacklog)
 {
-    if (listen(sock._s, connBacklog) == -1)
+    if (listen(sock._s._s, connBacklog) == -1)
     {
         return -1;
     }
@@ -311,7 +311,7 @@ void DestroyAddrInfo(AddrInfo a)
 
 TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr)
 {
-    if (theirAddr != NULL && theirAddr->_s != NULL)
+    if (theirAddr != NULL && theirAddr->_s == NULL)
     {
     /* Initialize the theirAddr. */
 
@@ -336,6 +336,21 @@ const char *SockAddrToStr(SockAddr *addr, char *dst)
 int DestroySocket(Socket sock)
 {
     return close(sock._s);
+}
+
+int DestroyTCPSocket(TCPSocket sock)
+{
+    return DestroySocket(sock._s);
+}
+
+int DestroyUDPTalkerSocket(UDPTalkerSocket sock)
+{
+    return DestroySocket(sock._s);
+}
+
+int DestroyUDPListenerSocket(UDPListenerSocket sock)
+{
+    return DestroySocket(sock._s);
 }
 
 ssize_t TCPSendData(TCPSocket sock, const void *buf, size_t len)
@@ -380,4 +395,23 @@ void PrintError(char *error)
 void DestroySockAddr(SockAddr s)
 {
     free(s._s);
+}
+bool IsValidSocket(Socket sock)
+{
+    return sock._s != -1;
+}
+
+bool IsValidTCPSocket(TCPSocket sock)
+{
+    return IsValidSocket(sock._s);
+}
+
+bool IsValidUDPTalkerSocket(UDPTalkerSocket sock)
+{
+    return IsValidSocket(sock._s);
+}
+
+bool IsValidUDPListenerSocket(UDPListenerSocket sock)
+{
+    return IsValidSocket(sock._s);
 }

@@ -28,19 +28,10 @@ typedef struct
     const int _s;
 } Socket;
 
-typedef struct
-{
-    Socket _s;
-} TCPSocket;
+typedef Socket TCPSocket;
 
-typedef struct
-{
-    Socket _s;
-} UDPListenerSocket;
-typedef struct
-{
-    Socket _s;
-} UDPTalkerSocket;
+typedef Socket UDPListenerSocket;
+typedef Socket UDPTalkerSocket;
 typedef struct len_with_sockaddr
 {
     _SockAddr *_s;
@@ -295,12 +286,6 @@ const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength);
 
 bool IsValidSocket(Socket sock);
 
-bool IsValidTCPSocket(TCPSocket sock);
-
-bool IsValidUDPTalkerSocket(UDPTalkerSocket sock);
-
-bool IsValidUDPListenerSocket(UDPListenerSocket sock);
-
 void PrintError(char *errstr);
 
 /* Destructors */
@@ -310,9 +295,4 @@ void DestroySockAddr(SockAddr s);
 
 int DestroySocket(Socket sock);
 
-int DestroyUDPListenerSocket(UDPListenerSocket sock);
-
-int DestroyUDPTalkerSocket(UDPTalkerSocket sock);
-
-int DestroyTCPSocket(TCPSocket sock);
 #endif

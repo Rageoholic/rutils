@@ -11,7 +11,10 @@ typedef struct pid_status
 
 } PIDStatus;
 
-typedef enum { SIGNAL_CHILD } SignalType;
+typedef enum
+{
+    SIGNAL_CHILD
+} SignalType;
 
 typedef int SignalFlags; /* Set of signal flags for
                             program. See defines with

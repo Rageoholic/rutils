@@ -9,6 +9,9 @@
 #define DEBUG 1
 #endif
 
+typedef int errcode;
+
+#define ERROR_SUCCESS 0
 #define ERROR_INITIALIZATION_FAILURE 1
 
 typedef uint8_t u8;

@@ -9,13 +9,17 @@
 
 #define MAX_ADDR_STR_LEN 46
 
-typedef enum {
+typedef enum
+{
     TCP, /* Safe guaranteed transfer */
     UDP  /* Unsafe non-guaranteed transfer */
 } ConnType;
 
-typedef enum { SERVER,
-               CLIENT } Role;
+typedef enum
+{
+    SERVER,
+    CLIENT
+} Role;
 
 typedef int64_t Length;
 
@@ -38,9 +42,12 @@ typedef struct len_with_sockaddr
     size_t _len;
 } SockAddr;
 
-typedef enum ipver { IPV4,
-                     IPV6,
-                     NO_SPEC } IpVer;
+typedef enum ipver
+{
+    IPV4,
+    IPV6,
+    NO_SPEC
+} IpVer;
 
 #define MAX_CONN_BACKLOG 128 /* TODO: make this actually get the maximum connection backlog */
 

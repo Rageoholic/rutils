@@ -50,7 +50,7 @@ PIDStatus GetPIDStatus(PID pid)
     return stat;
 }
 
-PID ForkProcess()
+PID ForkProcess(void)
 {
     return fork();
 }

@@ -313,7 +313,7 @@ TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr)
 {
     if (theirAddr != NULL && theirAddr->_s == NULL)
     {
-    /* Initialize the theirAddr. */
+        /* Initialize the theirAddr. */
 
 #ifndef __clang_analyzer__
         theirAddr->_s = malloc(sizeof(struct sockaddr_storage));

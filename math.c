@@ -1,4 +1,4 @@
-#include "rmath.h"
+#include "math.h"
 #include <math.h>
 
 Vec3f NormalizeVec3f(Vec3f vec)

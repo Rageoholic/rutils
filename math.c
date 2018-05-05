@@ -1,5 +1,10 @@
-#include "rmath.h"
+#include "math.h"
 #include <math.h>
+
+int PrintVec3f(Vec3f vec)
+{
+    return printf("{ x: %f, y: %f, z: %f }", vec.x, vec.y, vec.z);
+}
 
 Vec3f NormalizeVec3f(Vec3f vec)
 {

@@ -26,6 +26,20 @@ typedef struct Mat4f
     float e[4][4];
 } Mat4f;
 
+static inline Vec3f AddVec3f(Vec3f vec1, Vec3f vec2)
+{
+    return (Vec3f){vec1.x + vec2.x,
+                   vec1.y + vec2.y,
+                   vec1.z + vec2.z};
+}
+
+static inline Vec3f MultiplyScalarVec3f(Vec3f vec, float f)
+{
+    return (Vec3f){vec.x * f,
+                   vec.y * f,
+                   vec.z * f};
+}
+
 static inline float *Index2dFloatArray(float *m, int width, int height, int x, int y)
 {
     assert(x < width && y < height);
@@ -56,11 +70,13 @@ static float DegToRad(float deg)
     return deg / 180 * PI;
 }
 
-const static Mat4f IdMat4f = {{{1, 0, 0, 0},
+static const Mat4f IdMat4f = {{{1, 0, 0, 0},
                                {0, 1, 0, 0},
                                {0, 0, 1, 0},
                                {0, 0, 0, 1}}};
 Mat4f MultiplyMatrices(Mat4f mat1, Mat4f mat2);
+
+int PrintVec3f(Vec3f vec);
 
 Mat4f CreatePerspectiveMat4f(float rads, float aspect, float near, float far);
 

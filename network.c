@@ -315,9 +315,7 @@ TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr)
     {
         /* Initialize the theirAddr. */
 
-#ifndef __clang_analyzer__
         theirAddr->_s = malloc(sizeof(struct sockaddr_storage));
-#endif
         theirAddr->_len = SOCKADDR_LENGTH_DEFAULT;
     }
 
@@ -354,9 +352,9 @@ ssize_t UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags fla
 
     if (theirAddr && !theirAddr->_s)
     {
-#ifndef __clang_analyzer__
+
         theirAddr->_s = malloc(sizeof(struct sockaddr_storage));
-#endif
+
         theirAddr->_len = sizeof(struct sockaddr_storage);
     }
     _SockAddr *lTheirAddr = theirAddr ? theirAddr->_s : NULL;

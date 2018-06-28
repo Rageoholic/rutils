@@ -4,7 +4,7 @@
 #include <string.h>
 
 /* File related includes */
-
+#include "file.h"
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>

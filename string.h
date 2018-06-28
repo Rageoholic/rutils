@@ -3,26 +3,9 @@
 #include "def.h"
 #include "string.h"
 
-typedef char *CStr;
+bool StringStartsWith(char *string, char *subString, size_t subStringLen);
 
-typedef struct ru_str
-{
-    size_t len;
-    size_t capacity;
-    char str[];
-} String;
-
-/* Accessors */
-
-size_t StringLen(String *s);
-
-/* Constructors */
-
-String *CreateString(char *cstr);
-
-String *InitString(char *cstr, String *str);
-
-void DestroyString(String *str);
+char **SplitLines(char *req);
 
 /* Needs a better name */
 int strcpyi(char *restrict dest, const char *restrict src, size_t maxdeststrlen);

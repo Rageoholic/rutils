@@ -28,6 +28,7 @@ char **SplitLines(char *req)
     size_t stringArrIndex = 1;
     stringArr[0] = req;
     bool lastWasSplit = false;
+
     for (int i = 0; req[i] != '\0'; i++)
     {
         if (req[i] == '\r' || req[i] == '\n')
@@ -50,6 +51,7 @@ char **SplitLines(char *req)
             }
         }
     }
+
     stringArr[stringArrIndex] = NULL;
     return stringArr;
 }
@@ -61,4 +63,14 @@ bool StringStartsWith(char *string, char *subString, size_t subStringLen)
         subStringLen = strlen(subString);
     }
     return !strncmp(string, subString, subStringLen);
+}
+
+bool streq(char *str1, char *str2)
+{
+    return !strcmp(str1, str2);
+}
+
+bool strneq(char *str1, char *str2, size_t n)
+{
+    return !strncmp(str1, str2, n);
 }

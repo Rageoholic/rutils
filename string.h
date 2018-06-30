@@ -3,7 +3,7 @@
 #include "def.h"
 #include "string.h"
 
-bool StringStartsWith(char *string, char *subString, size_t subStringLen);
+bool StrStartsWith(char *string, char *subString, size_t subStringLen);
 
 char **SplitLines(char *req);
 

@@ -5,11 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* TODO: This needs a *way* better name. I mean seriously */
-int strcpyi(char *restrict dest, const char *restrict src, size_t maxdeststrlen)
+int StrCpyAndLen(char *restrict dest, const char *restrict src, size_t destBufLen)
 {
     size_t i;
-    for (i = 0; i < maxdeststrlen; i++)
+    for (i = 0; i < destBufLen - 1; i++)
     {
         if (!src[i])
         {
@@ -56,9 +55,9 @@ char **SplitLines(char *req)
     return stringArr;
 }
 
-bool StringStartsWith(char *string, char *subString, size_t subStringLen)
+bool StrStartsWith(char *string, char *subString, size_t subStringLen)
 {
-    if (!subStringLen)
+    if (subStringLen == NO_GIVEN_LEN)
     {
         subStringLen = strlen(subString);
     }

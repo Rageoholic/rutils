@@ -3,13 +3,17 @@
 #include "def.h"
 #include <string.h>
 
-bool StringStartsWith(char *string, char *subString, size_t subStringLen);
+bool StrStartsWith(char *string, char *subString, size_t subStringLen);
 
 char **SplitLines(char *req);
 
+<<<<<<< HEAD
 /* Needs a better name */
 int strcpyi(char *restrict dest, const char *restrict src, size_t maxdeststrlen);
 
 bool streq(char *str1, char *str2);
 bool strneq(char *str1, char *str2, size_t n);
+=======
+int StrCpyAndLen(char *restrict dest, const char *restrict src, size_t maxdeststrlen);
+>>>>>>> 42288b96ce32fad06cb0ce60691acfc696219e01
 #endif

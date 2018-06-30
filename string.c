@@ -5,8 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* TODO: This needs a *way* better name. I mean seriously */
-int strcpyi(char *restrict dest, const char *restrict src, size_t maxdeststrlen)
+int StrCpyAndLen(char *restrict dest, const char *restrict src, size_t maxdeststrlen)
 {
     size_t i;
     for (i = 0; i < maxdeststrlen; i++)

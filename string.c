@@ -5,8 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-int StrCpyAndLen(char *restrict dest, const char *restrict src, size_t destBufLen)
+size_t StrCpyAndLen(char *restrict dest, const char *restrict src, size_t destBufLen)
 {
+    if (destBufLen == 0)
+    {
+        return 0;
+    }
     size_t i;
     for (i = 0; i < destBufLen - 1; i++)
     {

@@ -10,6 +10,6 @@ char **SplitLines(char *req);
 bool streq(char *str1, char *str2);
 bool strneq(char *str1, char *str2, size_t n);
 
-int StrCpyAndLen(char *restrict dest, const char *restrict src, size_t maxdeststrlen);
+size_t StrCpyAndLen(char *restrict dest, const char *restrict src, size_t maxdeststrlen);
 
 #endif

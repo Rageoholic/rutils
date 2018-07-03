@@ -1,10 +1,12 @@
 #include <libgen.h>
 
+#include "string.h"
 #include <stdlib.h>
 #include <string.h>
 
 /* File related includes */
 #include "file.h"
+
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -28,12 +30,8 @@ char *BaseName(char *restrict destBuf, size_t destBufLen,
             break;
         }
     }
+    StrCpyAndLen(destBuf, &pathstr[baseStrIndex], destBufLen);
 
-    if (destBufLen > 0)
-    {
-        strncpy(destBuf, &pathstr[baseStrIndex], destBufLen - 1);
-        destBuf[destBufLen - 1] = '\0';
-    }
     return destBuf;
 }
 

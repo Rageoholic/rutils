@@ -12,11 +12,29 @@
 
 #include <sys/mman.h>
 
-char *BaseName(char *restrict destBuf, const char *restrict pathstr)
+char *BaseName(char *restrict destBuf, size_t destBufLen,
+               const char *restrict pathstr, size_t pathstrlen)
 {
-    /* TODO: This function is doing a lot of unnecessary work. Do this simpler? */
-    strcpy(destBuf, pathstr);
-    return basename(destBuf);
+    if (pathstrlen == NO_GIVEN_LEN)
+    {
+        pathstrlen = strlen(pathstr);
+    }
+    int baseStrIndex = 0;
+    for (baseStrIndex = pathstrlen; baseStrIndex > 0; baseStrIndex--)
+    {
+        if (pathstr[baseStrIndex] == '/' || pathstr[baseStrIndex] == '\\')
+        {
+            baseStrIndex++;
+            break;
+        }
+    }
+
+    if (destBufLen > 0)
+    {
+        strncpy(destBuf, &pathstr[baseStrIndex], destBufLen - 1);
+        destBuf[destBufLen - 1] = '\0';
+    }
+    return destBuf;
 }
 
 char *MapFileToROBuffer(const char *filename, void *addrHint, size_t *fileLength)

@@ -44,7 +44,7 @@ char *MapFileToROBuffer(const char *filename, void *addrHint, size_t *fileLength
         return NULL;
     }
 
-    struct stat st = {};
+    struct stat st = {0};
 
     if (fstat(fd, &st) == -1)
     {

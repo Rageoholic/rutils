@@ -21,7 +21,7 @@ Vec3f NormalizeVec3f(Vec3f vec)
 Mat4f MultiplyMatrices(Mat4f mat1, Mat4f mat2)
 {
     /* TODO: SIMD operations as opposed to a ton of iteration */
-    Mat4f ret = {};
+    Mat4f ret = {0};
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -40,7 +40,7 @@ Mat4f MultiplyMatrices(Mat4f mat1, Mat4f mat2)
 Mat4f CreatePerspectiveMat4f(float fov, float aspect, float near, float far)
 {
     assert(fov > 0 && aspect != 0);
-    Mat4f result = {};
+    Mat4f result = {0};
     float depth = far - near;
 
     result.e[1][1] = 1 / tanf(.5 * fov);

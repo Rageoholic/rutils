@@ -11,8 +11,14 @@
 
 typedef int errcode;
 
+#undef ERROR_SUCCESS
 #define ERROR_SUCCESS 0
+#undef ERROR_INITIALIZATION_FAILURE
 #define ERROR_INITIALIZATION_FAILURE 1
+#undef ERROR_NULL_PARAMETER
+#define ERROR_NULL_PARAMETER 2
+#undef ERROR_NO_MEMORY
+#define ERROR_NO_MEMORY 3
 
 typedef uint8_t u8;
 typedef uint16_t u16;

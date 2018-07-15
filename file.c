@@ -14,8 +14,8 @@
 
 #include <sys/mman.h>
 
-char *BaseName(char *restrict destBuf, size_t destBufLen,
-               const char *restrict pathstr, size_t pathstrlen)
+char *BaseName(char *restrict destBuf, ssize_t destBufLen,
+               const char *restrict pathstr, ssize_t pathstrlen)
 {
     if (pathstrlen == NO_GIVEN_LEN)
     {
@@ -35,7 +35,7 @@ char *BaseName(char *restrict destBuf, size_t destBufLen,
     return destBuf;
 }
 
-char *MapFileToROBuffer(const char *filename, void *addrHint, size_t *fileLength)
+char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *fileLength)
 {
     int fd = open(filename, O_RDONLY);
 
@@ -51,7 +51,7 @@ char *MapFileToROBuffer(const char *filename, void *addrHint, size_t *fileLength
         return NULL;
     }
 
-    size_t fileSize = st.st_size;
+    ssize_t fileSize = st.st_size;
 
     char *fileBuf = mmap(addrHint, fileSize, PROT_READ, MAP_PRIVATE, fd, 0);
 

@@ -2,8 +2,8 @@
 #define RFILE_H
 #include "def.h"
 
-char *BaseName(char *restrict destBuf, size_t destBufLen,
-               const char *restrict pathstr, size_t pathstrlen);
+char *BaseName(char *restrict destBuf, ssize_t destBufLen,
+               const char *restrict pathstr, ssize_t pathstrlen);
 
-char *MapFileToROBuffer(const char *filename, void *addrHint, size_t *fileLength);
+char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *fileLength);
 #endif

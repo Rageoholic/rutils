@@ -59,7 +59,7 @@ char **SplitLines(char *req)
     return stringArr;
 }
 
-bool StrStartsWith(char *string, char *subString, size_t subStringLen)
+bool StrStartsWith(char *string, char *subString, ssize_t subStringLen)
 {
     if (subStringLen == NO_GIVEN_LEN)
     {

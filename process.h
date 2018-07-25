@@ -1,22 +1,25 @@
 #ifndef RPROCESS_H
 #define RPROCESS_H
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 #include "def.h"
 
-typedef int PID;
+    typedef int PID;
 
-typedef struct pid_status
-{
-    PID pid;
+    typedef struct pid_status
+    {
+        PID pid;
 
-} PIDStatus;
+    } PIDStatus;
 
-typedef enum
-{
-    SIGNAL_CHILD
-} SignalType;
+    typedef enum
+    {
+        SIGNAL_CHILD
+    } SignalType;
 
-typedef int SignalFlags; /* Set of signal flags for
+    typedef int SignalFlags; /* Set of signal flags for
                             program. See defines with
                             SignalFlags */
 
@@ -25,12 +28,15 @@ typedef int SignalFlags; /* Set of signal flags for
             fail with EINTR if they would, they \
             will retry */
 
-typedef void (*SignalHandler)(int);
+    typedef void (*SignalHandler)(int);
 
-PID ForkProcess(void);
+    PID ForkProcess(void);
 
-int SetSignalHandler(SignalType signum, SignalHandler Handler,
-                     SignalFlags saFlags);
+    int SetSignalHandler(SignalType signum, SignalHandler Handler,
+                         SignalFlags saFlags);
 
-PIDStatus GetPIDStatus(PID pid);
+    PIDStatus GetPIDStatus(PID pid);
+#ifdef __cplusplus
+}
+#endif
 #endif

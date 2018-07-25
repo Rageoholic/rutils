@@ -64,3 +64,8 @@ char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *fileLengt
 
     return fileBuf;
 }
+
+void UnmapMappedBuffer(void *buf, size_t len)
+{
+    munmap(buf, len);
+}

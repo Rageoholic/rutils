@@ -1,59 +1,62 @@
 #ifndef RNETWORK_H
 #define RNETWORK_H
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 #include "def.h"
 
 #include <stdbool.h>
 
-/* Types and constants */
+    /* Types and constants */
 
 #define MAX_ADDR_STR_LEN 46
 
-typedef enum
-{
-    TCP, /* Safe guaranteed transfer */
-    UDP  /* Unsafe non-guaranteed transfer */
-} ConnType;
+    typedef enum
+    {
+        TCP, /* Safe guaranteed transfer */
+        UDP  /* Unsafe non-guaranteed transfer */
+    } ConnType;
 
-typedef enum
-{
-    SERVER,
-    CLIENT
-} Role;
+    typedef enum
+    {
+        SERVER,
+        CLIENT
+    } Role;
 
-typedef int64_t Length;
+    typedef int64_t Length;
 
-typedef struct addrinfo _AddrInfo, *AddrInfo;
+    typedef struct addrinfo _AddrInfo, *AddrInfo;
 
-typedef struct sockaddr _SockAddr;
+    typedef struct sockaddr _SockAddr;
 
-typedef struct
-{
-    const int _s;
-} Socket;
+    typedef struct
+    {
+        const int _s;
+    } Socket;
 
-typedef Socket TCPSocket;
+    typedef Socket TCPSocket;
 
-typedef Socket UDPListenerSocket;
-typedef Socket UDPTalkerSocket;
-typedef struct len_with_sockaddr
-{
-    _SockAddr *_s;
-    size_t _len;
-} SockAddr;
+    typedef Socket UDPListenerSocket;
+    typedef Socket UDPTalkerSocket;
+    typedef struct len_with_sockaddr
+    {
+        _SockAddr *_s;
+        size_t _len;
+    } SockAddr;
 
-typedef enum ipver
-{
-    IPV4,
-    IPV6,
-    NO_SPEC
-} IpVer;
+    typedef enum ipver
+    {
+        IPV4,
+        IPV6,
+        NO_SPEC
+    } IpVer;
 
 #define MAX_CONN_BACKLOG 128 /* TODO: make this actually get the maximum connection backlog */
 
-/* Functions */
+    /* Functions */
 
-/*
+    /*
   func: CreateTCPServerSocket
 
   Creates a TCP socket to which clients can connect
@@ -63,9 +66,9 @@ typedef enum ipver
   port: a character representation of the port you wish to bind to
 */
 
-TCPSocket CreateTCPServerSocket(const char *port, int connBacklog);
+    TCPSocket CreateTCPServerSocket(const char *port, int connBacklog);
 
-/*
+    /*
   func: CreateTCPClientSocket
 
   Connect to an external server via TCP
@@ -81,10 +84,10 @@ TCPSocket CreateTCPServerSocket(const char *port, int connBacklog);
   point to an actual AddrInfo. Pass NULL if you couldn't give a shit.
 */
 
-TCPSocket CreateTCPClientSocket(const char *name, const char *port,
-                                AddrInfo *givenServInfo);
+    TCPSocket CreateTCPClientSocket(const char *name, const char *port,
+                                    AddrInfo *givenServInfo);
 
-/*
+    /*
   func: CreateUDPListenerSocket
 
   Create a UDP socket we can listen on for data
@@ -93,9 +96,9 @@ TCPSocket CreateTCPClientSocket(const char *name, const char *port,
 
   port: a character representation of the port you wish to bind to
 */
-UDPListenerSocket CreateUDPListenerSocket(const char *port);
+    UDPListenerSocket CreateUDPListenerSocket(const char *port);
 
-/*
+    /*
   func: CreateUDPTalkerSocket
 
   Create a UDP socket we can use to connect externally
@@ -109,9 +112,9 @@ UDPListenerSocket CreateUDPListenerSocket(const char *port);
   servInfo: A pointer to fill out with the pointer to our AddrInfos
   WARNING: Cannot be NULL. If its NULL you can't send data
 */
-UDPTalkerSocket CreateUDPTalkerSocket(const char *name, const char *port,
-                                      SockAddr *theirAddr);
-/*
+    UDPTalkerSocket CreateUDPTalkerSocket(const char *name, const char *port,
+                                          SockAddr *theirAddr);
+    /*
   func: GetAddrInfo
 
   Get the AddrInfo of a specified server. If it doesn't return 0 then
@@ -132,10 +135,10 @@ UDPTalkerSocket CreateUDPTalkerSocket(const char *name, const char *port,
   addrinfo
 */
 
-int GetAddrInfo(Role role, ConnType connType, const char *name,
-                const char *port, AddrInfo *res);
+    int GetAddrInfo(Role role, ConnType connType, const char *name,
+                    const char *port, AddrInfo *res);
 
-/*
+    /*
   func: GaiError
 
   Turn an error from GetAddrInfo into a string representation
@@ -145,9 +148,9 @@ int GetAddrInfo(Role role, ConnType connType, const char *name,
   errcode: the return value from GetAddrInfo
 */
 
-const char *GaiError(int errcode);
+    const char *GaiError(int errcode);
 
-/*
+    /*
   func: BindToAddrInfo
 
   Bind and start listening to a server socket
@@ -159,9 +162,9 @@ const char *GaiError(int errcode);
   connBacklog: The maximum length of the listen queue
 */
 
-Socket BindToAddrInfo(AddrInfo a);
+    Socket BindToAddrInfo(AddrInfo a);
 
-/*
+    /*
   func: ConnectToSocket
 
   Connect to a server
@@ -171,11 +174,11 @@ Socket BindToAddrInfo(AddrInfo a);
   a: AddrInfo to connect to
 */
 
-int ListenToTCPSocket(TCPSocket sock, int connBacklog);
+    int ListenToTCPSocket(TCPSocket sock, int connBacklog);
 
-TCPSocket ConnectToTCPSocket(AddrInfo a);
+    TCPSocket ConnectToTCPSocket(AddrInfo a);
 
-/*
+    /*
   func: AcceptConnection
 
   Accept an incoming connection on a socket
@@ -188,9 +191,9 @@ TCPSocket ConnectToTCPSocket(AddrInfo a);
   this points with a pointer to their SockAddr
 */
 
-TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr);
+    TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr);
 
-/*
+    /*
   func: SockAddrToStr
 
   Convert a SockAddr to a string representation of that SockAddr
@@ -203,9 +206,9 @@ TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr);
   WARNING: Not presently NULL safe
 */
 
-const char *SockAddrToStr(SockAddr *addr, char *dst);
+    const char *SockAddrToStr(SockAddr *addr, char *dst);
 
-/*
+    /*
   func: TCPSendData
 
   Send a buffer of data over a TCP socket. Returns the length of the
@@ -220,9 +223,9 @@ const char *SockAddrToStr(SockAddr *addr, char *dst);
   len: length of buf
 */
 
-ssize_t TCPSendData(TCPSocket sock, const void *buf, size_t len);
+    ssize_t TCPSendData(TCPSocket sock, const void *buf, size_t len);
 
-/*
+    /*
   func: TCPRecvData
 
   Read a buffer of data from a TCP socket. Returns the length of the
@@ -239,9 +242,9 @@ ssize_t TCPSendData(TCPSocket sock, const void *buf, size_t len);
   flags: Flags we want to set. See ReadFlags for docs on what flags mean
 */
 
-ssize_t TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags);
+    ssize_t TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags);
 
-/*
+    /*
   func: UDPSendData
 
   Send a buffer of data over a UDP socket. Returns the length of the
@@ -258,10 +261,10 @@ ssize_t TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags);
   theirAddr: An AddrInfo giving the SockAddr of the server to connect to
 */
 
-ssize_t UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len,
-                    SockAddr theirAddr);
+    ssize_t UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len,
+                        SockAddr theirAddr);
 
-/*
+    /*
   func: UDPRecvData
 
   Recieve a buffer of date over a UDP data. Returns the length of the
@@ -280,26 +283,28 @@ ssize_t UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len,
   theirAddr: A pointer to a SockAddr to fill with data
 */
 
-ssize_t UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
-                    SockAddr *theirAddr);
+    ssize_t UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
+                        SockAddr *theirAddr);
 
-/* Accessors */
+    /* Accessors */
 
-AddrInfo NextAddrInfo(AddrInfo a);
+    AddrInfo NextAddrInfo(AddrInfo a);
 
-IpVer GetIpVer(AddrInfo a);
+    IpVer GetIpVer(AddrInfo a);
 
-const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength);
+    const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength);
 
-bool IsValidSocket(Socket sock);
+    bool IsValidSocket(Socket sock);
 
-void PrintError(char *errstr);
+    void PrintError(char *errstr);
 
-/* Destructors */
-void DestroyAddrInfo(AddrInfo a);
+    /* Destructors */
+    void DestroyAddrInfo(AddrInfo a);
 
-void DestroySockAddr(SockAddr s);
+    void DestroySockAddr(SockAddr s);
 
-int DestroySocket(Socket sock);
-
+    int DestroySocket(Socket sock);
+#ifdef __cplusplus
+}
+#endif
 #endif

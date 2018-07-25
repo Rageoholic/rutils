@@ -19,7 +19,9 @@ typedef int errcode;
 #define ERROR_NULL_PARAMETER 2
 #undef ERROR_NO_MEMORY
 #define ERROR_NO_MEMORY 3
-
+#ifdef __cplusplus
+#define restrict
+#endif
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;

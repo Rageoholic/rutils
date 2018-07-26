@@ -8,7 +8,7 @@ extern "C"
     char *BaseName(char *restrict destBuf, ssize_t destBufLen,
                    const char *restrict pathstr, ssize_t pathstrlen);
 
-    char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *fileLength);
+    char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *mappingSize);
 
     void UnmapMappedBuffer(void *buf, size_t len);
 #ifdef __cplusplus

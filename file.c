@@ -35,7 +35,7 @@ char *BaseName(char *restrict destBuf, ssize_t destBufLen,
     return destBuf;
 }
 
-char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *fileLength)
+char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *mappingSize)
 {
     int fd = open(filename, O_RDONLY);
 
@@ -51,13 +51,13 @@ char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *fileLengt
         return NULL;
     }
 
-    ssize_t fileSize = st.st_size;
+    ssize_t fileSize = st.st_size + 1;
 
     char *fileBuf = mmap(addrHint, fileSize, PROT_READ, MAP_PRIVATE, fd, 0);
 
-    if (fileLength)
+    if (mappingSize)
     {
-        *fileLength = fileSize;
+        *mappingSize = fileSize;
     }
 
     close(fd);

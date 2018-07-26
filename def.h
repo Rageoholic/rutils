@@ -32,6 +32,8 @@ typedef int16_t s16;
 typedef int32_t s32;
 typedef int64_t s64;
 
+typedef unsigned char byte;
+
 /* Types and constants */
 
 #define local static /* Function is local to the file */

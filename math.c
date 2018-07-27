@@ -40,13 +40,13 @@ Mat4f MultiplyMatrices(Mat4f mat1, Mat4f mat2)
 Mat4f CreatePerspectiveMat4f(float fov, float aspect, float near, float far)
 {
     assert(fov > 0 && aspect != 0);
-    Mat4f result = {0};
-    float depth = far - near;
 
-    result.e[1][1] = 1 / tanf(.5 * fov);
-    result.e[0][0] = 1 * result.e[1][1] / aspect;
-    result.e[2][2] = (-far + near) / depth;
-    result.e[3][2] = (-2 * far * near) / depth;
+    Mat4f result = {0};
+    float scale = 1 / tan(fov * 0.5);
+    result.e[0][0] = scale / aspect;
+    result.e[1][1] = scale;
+    result.e[2][2] = (far) / (near - far);
+    result.e[3][2] = -(far * near) / (far - near);
     result.e[2][3] = -1;
     result.e[3][3] = 0;
     return result;

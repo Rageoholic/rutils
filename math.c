@@ -29,7 +29,7 @@ Mat4f MultiplyMatrices(const Mat4f *mat1, const Mat4f *mat2)
             float res = 0;
             for (int k = 0; k < 4; k++)
             {
-                res += mat1->e[i][k] * mat2->e[k][j];
+                res += mat2->e[i][k] * mat1->e[k][j];
             }
             ret.e[i][j] = res;
         }
@@ -78,7 +78,7 @@ Mat4f RotateMat4f(const Mat4f *mat, float rads, Vec3f axis)
           {xz * (1 - cost) - y * sint, yz * (1 - cost) + x * sint,
            cost + zz * (1 - cost), 0},
           {0, 0, 0, 1}}};
-    return MultiplyMatrices(&rotationMatrix, mat);
+    return MultiplyMatrices(mat, &rotationMatrix);
 }
 
 Mat4f ScaleMat4f(const Mat4f *mat, Vec3f vec)
@@ -87,7 +87,7 @@ Mat4f ScaleMat4f(const Mat4f *mat, Vec3f vec)
     *IndexMat4f(&res, 0, 0) *= vec.x;
     *IndexMat4f(&res, 1, 1) *= vec.y;
     *IndexMat4f(&res, 2, 2) *= vec.z;
-    return MultiplyMatrices(&res, mat);
+    return MultiplyMatrices(mat, &res);
 }
 
 Mat4f TranslateMat4f(const Mat4f *mat, Vec3f vec)
@@ -97,5 +97,5 @@ Mat4f TranslateMat4f(const Mat4f *mat, Vec3f vec)
     *IndexMat4f(&res, 1, 3) += vec.y;
     *IndexMat4f(&res, 2, 3) += vec.z;
 
-    return MultiplyMatrices(&res, mat);
+    return MultiplyMatrices(mat, &res);
 }

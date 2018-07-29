@@ -41,14 +41,17 @@ Mat4f CreatePerspectiveMat4f(float fov, float aspect, float near, float far)
 {
     assert(fov > 0 && aspect != 0);
 
+    float xScale = (float)1 / tanf(fov / 2) / aspect;
+    float yScale = xScale * aspect;
+    float frustumLength = far - near;
     Mat4f result = {0};
-    float scale = 1 / tan(fov * 0.5);
-    result.e[0][0] = scale / aspect;
-    result.e[1][1] = scale;
-    result.e[2][2] = (far) / (near - far);
-    result.e[3][2] = -(far * near) / (far - near);
-    result.e[2][3] = -1;
-    result.e[3][3] = 0;
+    *IndexMat4f(&result, 0, 0) = xScale;
+    *IndexMat4f(&result, 1, 1) = yScale;
+    *IndexMat4f(&result, 2, 2) = -((far + near) / frustumLength);
+    *IndexMat4f(&result, 2, 3) = -1;
+    *IndexMat4f(&result, 3, 2) = -((2 * near * far) / frustumLength);
+    *IndexMat4f(&result, 3, 3) = 0;
+
     return result;
 }
 

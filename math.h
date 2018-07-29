@@ -85,6 +85,18 @@ extern "C"
     Mat4f CreatePerspectiveMat4f(float rads, float aspect, float near, float far);
 
     Mat4f CalcLookAtMat4f(Vec3f position, Vec3f target, Vec3f worldUp);
+    Vec3f NormalizeVec3f(Vec3f vec);
+    static inline Vec3f NegateVec3f(Vec3f vec)
+    {
+        return (Vec3f){-vec.x,
+                       -vec.y,
+                       -vec.z};
+    }
+    static inline Vec3f SubVec3f(Vec3f v1, Vec3f v2)
+    {
+        return AddVec3f(v1, NegateVec3f(v2));
+    }
+    Vec3f CrossProductVec3f(Vec3f v1, Vec3f v2);
 #ifdef __cplusplus
 }
 #endif

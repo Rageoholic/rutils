@@ -83,6 +83,8 @@ extern "C"
     int PrintVec3f(Vec3f vec);
 
     Mat4f CreatePerspectiveMat4f(float rads, float aspect, float near, float far);
+
+    Mat4f CalcLookAtMat4f(Vec3f position, Vec3f target, Vec3f worldUp);
 #ifdef __cplusplus
 }
 #endif

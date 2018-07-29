@@ -99,3 +99,45 @@ Mat4f TranslateMat4f(const Mat4f *mat, Vec3f vec)
 
     return MultiplyMatrices(mat, &res);
 }
+
+Vec3f CrossProductVec3f(Vec3f v1, Vec3f v2)
+{
+    return (Vec3f){
+        v1.y * v2.z - v1.z * v2.y,
+        v1.z * v2.x - v1.x * v2.z,
+        v1.x * v2.y - v1.y * v2.x};
+}
+
+Mat4f CalcLookAtMat4f(Vec3f position, Vec3f target, Vec3f worldUp)
+{
+    // 1. Position = known
+    // 2. Calculate cameraDirection
+    Vec3f zaxis = NormalizeVec3f((Vec3f){
+        position.x - target.x,
+        position.y - target.y,
+        position.z - target.z});
+    // 3. Get positive right axis vector
+    Vec3f xaxis = NormalizeVec3f(CrossProductVec3f(NormalizeVec3f(worldUp),
+                                                   zaxis));
+    // 4. Calculate camera up vector
+    Vec3f yaxis = CrossProductVec3f(zaxis, xaxis);
+
+    Mat4f translation = IdMat4f;
+    *IndexMat4f(&translation, 0, 3) = -position.x;
+    *IndexMat4f(&translation, 1, 3) = -position.y;
+    *IndexMat4f(&translation, 2, 3) = -position.z;
+
+    Mat4f rotation = IdMat4f;
+    rotation.e[0][0] = xaxis.x;
+    rotation.e[1][0] = xaxis.y;
+    rotation.e[2][0] = xaxis.z;
+    rotation.e[0][1] = yaxis.x;
+    rotation.e[1][1] = yaxis.y;
+    rotation.e[2][1] = yaxis.z;
+    rotation.e[0][2] = zaxis.x;
+    rotation.e[1][2] = zaxis.y;
+    rotation.e[2][2] = zaxis.z;
+
+    // Return lookAt matrix as combination of translation and rotation matrix
+    return MultiplyMatrices(&rotation, &translation); // Remember to read from right to left (first translation then rotation)
+}

@@ -18,7 +18,7 @@ Vec3f NormalizeVec3f(Vec3f vec)
     return normalizedVec;
 }
 
-Mat4f MultiplyMatrices(Mat4f mat1, Mat4f mat2)
+Mat4f MultiplyMatrices(const Mat4f *mat1, const Mat4f *mat2)
 {
     /* TODO: SIMD operations as opposed to a ton of iteration */
     Mat4f ret = {0};
@@ -29,7 +29,7 @@ Mat4f MultiplyMatrices(Mat4f mat1, Mat4f mat2)
             float res = 0;
             for (int k = 0; k < 4; k++)
             {
-                res += mat1.e[i][k] * mat2.e[k][j];
+                res += mat1->e[i][k] * mat2->e[k][j];
             }
             ret.e[i][j] = res;
         }
@@ -48,14 +48,14 @@ Mat4f CreatePerspectiveMat4f(float fov, float aspect, float near, float far)
     *IndexMat4f(&result, 0, 0) = xScale;
     *IndexMat4f(&result, 1, 1) = yScale;
     *IndexMat4f(&result, 2, 2) = -((far + near) / frustumLength);
-    *IndexMat4f(&result, 2, 3) = -1;
-    *IndexMat4f(&result, 3, 2) = -((2 * near * far) / frustumLength);
+    *IndexMat4f(&result, 3, 2) = -1;
+    *IndexMat4f(&result, 2, 3) = -((2 * near * far) / frustumLength);
     *IndexMat4f(&result, 3, 3) = 0;
 
     return result;
 }
 
-Mat4f RotateMat4f(Mat4f mat, float rads, Vec3f axis)
+Mat4f RotateMat4f(const Mat4f *mat, float rads, Vec3f axis)
 {
     Vec3f normalAxis = NormalizeVec3f(axis);
     float x = normalAxis.x;
@@ -78,24 +78,24 @@ Mat4f RotateMat4f(Mat4f mat, float rads, Vec3f axis)
           {xz * (1 - cost) - y * sint, yz * (1 - cost) + x * sint,
            cost + zz * (1 - cost), 0},
           {0, 0, 0, 1}}};
-    return MultiplyMatrices(rotationMatrix, mat);
+    return MultiplyMatrices(&rotationMatrix, mat);
 }
 
-Mat4f ScaleMat4f(Mat4f mat, Vec3f vec)
+Mat4f ScaleMat4f(const Mat4f *mat, Vec3f vec)
 {
     Mat4f res = IdMat4f;
     *IndexMat4f(&res, 0, 0) *= vec.x;
     *IndexMat4f(&res, 1, 1) *= vec.y;
     *IndexMat4f(&res, 2, 2) *= vec.z;
-    return MultiplyMatrices(res, mat);
+    return MultiplyMatrices(&res, mat);
 }
 
-Mat4f TranslateMat4f(Mat4f mat, Vec3f vec)
+Mat4f TranslateMat4f(const Mat4f *mat, Vec3f vec)
 {
-    Mat4f res = mat;
+    Mat4f res = *mat;
     *IndexMat4f(&res, 0, 3) += vec.x;
     *IndexMat4f(&res, 1, 3) += vec.y;
     *IndexMat4f(&res, 2, 3) += vec.z;
 
-    return MultiplyMatrices(res, mat);
+    return MultiplyMatrices(&res, mat);
 }

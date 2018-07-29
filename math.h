@@ -60,9 +60,9 @@ extern "C"
         return f < 0 ? -f : f;
     }
 
-    Mat4f RotateMat4f(Mat4f mat, float rads, Vec3f vec);
-    Mat4f ScaleMat4f(Mat4f mat, Vec3f vec);
-    Mat4f TranslateMat4f(Mat4f mat, Vec3f vec);
+    Mat4f RotateMat4f(const Mat4f *mat, float rads, Vec3f vec);
+    Mat4f ScaleMat4f(const Mat4f *mat, Vec3f vec);
+    Mat4f TranslateMat4f(const Mat4f *mat, Vec3f vec);
 
     static Vec3f vec3f(float x, float y, float z)
     {
@@ -78,7 +78,7 @@ extern "C"
                                    {0, 1, 0, 0},
                                    {0, 0, 1, 0},
                                    {0, 0, 0, 1}}};
-    Mat4f MultiplyMatrices(Mat4f mat1, Mat4f mat2);
+    Mat4f MultiplyMatrices(const Mat4f *mat1, const Mat4f *mat2);
 
     int PrintVec3f(Vec3f vec);
 

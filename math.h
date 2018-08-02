@@ -1,8 +1,8 @@
 #ifndef RMATH_H
 #define RMATH_H
-
 #include "debug.h"
 #include "def.h"
+#include <math.h>
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062
 #ifdef __cplusplus
 extern "C"
@@ -44,6 +44,16 @@ extern "C"
                        vec.z * f};
     }
 
+    static inline float DotProdVec3f(Vec3f a, Vec3f b)
+    {
+        return a.x * b.x + a.y * b.y + a.z * b.z;
+    }
+    static inline float LengthVec3f(Vec3f vec)
+    {
+        return sqrtf(vec.x * vec.x +
+                     vec.y * vec.y +
+                     vec.z * vec.z);
+    }
     static inline float *Index2dFloatArray(float *m, int width, int height, int x, int y)
     {
         assert(x < width && y < height);
@@ -54,6 +64,8 @@ extern "C"
     {
         return Index2dFloatArray((float *)mat->e, 4, 4, x, y);
     }
+
+    Vec3f NormalizeVec3f(Vec3f vec);
 
     static inline float AbsFloat(float f)
     {
@@ -85,7 +97,7 @@ extern "C"
     Mat4f CreatePerspectiveMat4f(float rads, float aspect, float near, float far);
 
     Mat4f CalcLookAtMat4f(Vec3f position, Vec3f target, Vec3f worldUp);
-    Vec3f NormalizeVec3f(Vec3f vec);
+
     static inline Vec3f NegateVec3f(Vec3f vec)
     {
         return (Vec3f){-vec.x,

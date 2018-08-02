@@ -74,7 +74,7 @@ Mat4f RotateMat4f(const Mat4f *mat, float rads, Vec3f axis)
         {{{cost + xx * (1 - cost), xy * (1 - cost) - z * sint,
            xz * (1 - cost) + y * sint, 0},
           {xy * (1 - cost) + z * sint, cost + yy * (1 - cost),
-           yz * (1 - cost) - z * sint, 0},
+           yz * (1 - cost) - x * sint, 0},
           {xz * (1 - cost) - y * sint, yz * (1 - cost) + x * sint,
            cost + zz * (1 - cost), 0},
           {0, 0, 0, 1}}};

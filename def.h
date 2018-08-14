@@ -36,7 +36,8 @@ typedef unsigned char byte;
 
 /* Types and constants */
 
-#define local static /* Function is local to the file */
+#define local static  /* Function is local to the file */
+#define global static /* Variable is global throughout the file */
 
 #define ignore (void)/* Ignore this variable. Turns off warnings for unused \
                         vars in functions that care */

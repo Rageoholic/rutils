@@ -109,6 +109,7 @@ extern "C"
         return AddVec3f(v1, NegateVec3f(v2));
     }
     Vec3f CrossProductVec3f(Vec3f v1, Vec3f v2);
+    Mat4f CreateOrthoMat4f(float left, float right, float bottom, float top);
 #ifdef __cplusplus
 }
 #endif

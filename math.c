@@ -55,6 +55,17 @@ Mat4f CreatePerspectiveMat4f(float fov, float aspect, float near, float far)
     return result;
 }
 
+Mat4f CreateOrthoMat4f(float left, float right, float bottom, float top)
+{
+    Mat4f result = IdMat4f;
+    *IndexMat4f(&result, 0, 0) = 2 / (right - left);
+    *IndexMat4f(&result, 1, 1) = 2 / (top - bottom);
+    *IndexMat4f(&result, 2, 2) = -1;
+    *IndexMat4f(&result, 0, 3) = -(right + left) / (right - left);
+    *IndexMat4f(&result, 1, 3) = -(top + bottom) / (top - bottom);
+    return result;
+}
+
 Mat4f RotateMat4f(const Mat4f *mat, float rads, Vec3f axis)
 {
     Vec3f normalAxis = NormalizeVec3f(axis);

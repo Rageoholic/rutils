@@ -8,6 +8,8 @@
 extern "C"
 {
 #endif
+    /* All these math functions are kind of elementary so you'll excuse me for
+       not documenting them in great detail */
     typedef struct Vec2f
     {
         float x, y;
@@ -72,6 +74,7 @@ extern "C"
         return f < 0 ? -f : f;
     }
 
+    /* You must Translate, then Rotate, then Scale */
     Mat4f RotateMat4f(const Mat4f *mat, float rads, Vec3f vec);
     Mat4f ScaleMat4f(const Mat4f *mat, Vec3f vec);
     Mat4f TranslateMat4f(const Mat4f *mat, Vec3f vec);

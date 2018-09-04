@@ -1,4 +1,4 @@
-_RUTILS = process.o network.o string.o file.o math.o
+_RUTILS =  network.o string.o file.o math.o
 
 RUTILS = $(patsubst %,$(RUTILS_DIR)%, $(_RUTILS))
 

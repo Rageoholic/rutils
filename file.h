@@ -23,8 +23,8 @@ extern "C"
        be determined at runtime, but this hint makes things a little faster
 
      */
-    char *BaseName(char *restrict destBuf, ssize_t destBufLen,
-                   const char *restrict pathstr, ssize_t pathstrlen);
+    char *BaseName(char *restrict destBuf, isize destBufLen,
+                   const char *restrict pathstr, isize pathstrlen);
 
     /*
        func: MapFileToROBuffer
@@ -44,7 +44,7 @@ extern "C"
        undo the mapping.
      */
 
-    char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *mappingSize);
+    char *MapFileToROBuffer(const char *filename, void *addrHint, isize *mappingSize);
 
     /*
       func: UnmapMappedBuffer

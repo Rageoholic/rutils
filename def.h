@@ -54,5 +54,6 @@ typedef int ReadFlags; /* Set of flags for reading files. See
 
 #define NO_GIVEN_LEN -1
 
-typedef int64_t ssize_t;
+typedef intptr_t isize;
+typedef size_t usize;
 #endif

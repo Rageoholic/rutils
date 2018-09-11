@@ -223,7 +223,7 @@ extern "C"
      len: length of buf
      */
 
-    ssize_t TCPSendData(TCPSocket sock, const void *buf, size_t len);
+    isize TCPSendData(TCPSocket sock, const void *buf, size_t len);
 
     /*
      func: TCPRecvData
@@ -242,7 +242,7 @@ extern "C"
      flags: Flags we want to set. See ReadFlags for docs on what flags mean
      */
 
-    ssize_t TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags);
+    isize TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags);
 
     /*
      func: UDPSendData
@@ -261,7 +261,7 @@ extern "C"
      theirAddr: An AddrInfo giving the SockAddr of the server to connect to
      */
 
-    ssize_t UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len,
+    isize UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len,
                         SockAddr theirAddr);
 
     /*
@@ -283,7 +283,7 @@ extern "C"
      theirAddr: A pointer to a SockAddr to fill with data
      */
 
-    ssize_t UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
+    isize UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
                         SockAddr *theirAddr);
 
     /* Accessors */

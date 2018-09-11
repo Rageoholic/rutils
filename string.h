@@ -14,7 +14,7 @@ extern "C"
        subStringLen parameter we'll calculate the subString length for you,
        otherwise we use what you pass for efficiencies sake.
      */
-    bool StrStartsWith(char *string, char *subString, ssize_t subStringLen);
+    bool StrStartsWith(char *string, char *subString, isize subStringLen);
 
     /*
        func: SplitLines

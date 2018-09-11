@@ -39,8 +39,11 @@ Mat4f MultiplyMatrices(const Mat4f *mat1, const Mat4f *mat2)
 
 Mat4f CreatePerspectiveMat4f(float fov, float aspect, float near, float far)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    /* We turn off this warning because we're just looking for literal zero */
     assert(fov > 0 && aspect != 0);
-
+#pragma clang diagnostic pop
     float xScale = (float)1 / tanf(fov / 2) / aspect;
     float yScale = xScale * aspect;
     float frustumLength = far - near;

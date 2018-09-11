@@ -53,6 +53,8 @@ local int ConnTypeToSockType(ConnType connType)
         return SOCK_DGRAM;
     }
 }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-align"
 
 local void *GetInAddr(_SockAddr *sa)
 {
@@ -66,7 +68,7 @@ local void *GetInAddr(_SockAddr *sa)
         return &(((struct sockaddr_in6 *)sa)->sin6_addr);
     }
 }
-
+#pragma clang diagnostic pop
 typedef struct
 {
     Socket s;
@@ -284,7 +286,11 @@ TCPSocket ConnectToTCPSocket(AddrInfo a)
 IpVer GetIpVer(AddrInfo a)
 {
     return (a->ai_family == AF_INET) ? IPV4 : IPV6;
+
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-align"
 
 const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength)
 {
@@ -303,7 +309,7 @@ const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength)
 
     return inet_ntop(a->ai_family, addr, ipstr, ipstrLength);
 }
-
+#pragma clang diagnostic pop
 void DestroyAddrInfo(AddrInfo a)
 {
     freeaddrinfo(a);

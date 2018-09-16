@@ -9,6 +9,22 @@
 #define DEBUG 1
 #endif
 
+
+typedef int errcode;
+
+#undef ERROR_SUCCESS
+#define ERROR_SUCCESS 0
+#undef ERROR_INITIALIZATION_FAILURE
+#define ERROR_INITIALIZATION_FAILURE 1
+#undef ERROR_NULL_PARAMETER
+#define ERROR_NULL_PARAMETER 2
+#undef ERROR_NO_MEMORY
+#define ERROR_NO_MEMORY 3
+
+#ifdef __cplusplus
+#define restrict
+#endif
+
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -19,9 +35,12 @@ typedef int16_t s16;
 typedef int32_t s32;
 typedef int64_t s64;
 
+typedef unsigned char byte;
+
 /* Types and constants */
 
-#define local static /* Function is local to the file */
+#define local static  /* Function is local to the file */
+#define global static /* Variable is global throughout the file */
 
 #define ignore (void)/* Ignore this variable. Turns off warnings for unused \
                         vars in functions that care */
@@ -35,6 +54,7 @@ typedef int ReadFlags; /* Set of flags for reading files. See
 #define READ_NO_BLOCK 0x02 /* ReadFlags: Don't block on reading \
                               data from the descriptor */
 
+
 #ifdef __GNUC__
 #define DEPRECATED(func) func __attribute__((deprecated))
 #elif defined(_MSC_VER)
@@ -45,4 +65,10 @@ typedef int ReadFlags; /* Set of flags for reading files. See
 #endif
 
 typedef int64_t ssize_t;
+
+#define NO_GIVEN_LEN -1
+
+typedef intptr_t isize;
+typedef size_t usize;
+
 #endif

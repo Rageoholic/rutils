@@ -1,7 +1,8 @@
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef RDEBUG_H
+#define RDEBUG_H
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 /* Functions */
 #ifdef NDEBUG
 #define ERROR(str)

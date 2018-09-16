@@ -1,19 +1,18 @@
 #include "string.h"
 #include "debug.h"
 
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 
-size_t StringLen(String *s)
+size_t StrCpyAndLen(char *restrict dest, const char *restrict src, size_t destBufLen)
 {
-    return s->len;
-}
-
-/* TODO: This needs a *way* better name. I mean seriously */
-int strcpyi(char *restrict dest, const char *restrict src, size_t maxdeststrlen)
-{
+    if (destBufLen == 0)
+    {
+        return 0;
+    }
     size_t i;
-    for (i = 0; i < maxdeststrlen; i++)
+    for (i = 0; i < destBufLen - 1; i++)
     {
         if (!src[i])
         {
@@ -25,35 +24,56 @@ int strcpyi(char *restrict dest, const char *restrict src, size_t maxdeststrlen)
     return i;
 }
 
-String *CreateString(char *cstr)
+char **SplitLines(char *req)
 {
-    size_t len = strlen(cstr);
-    String *str = malloc(sizeof(String) + len + 1);
-    if (str == NULL)
+    char **stringArr = calloc(10, sizeof(char *));
+    size_t sizeofStringArr = 10;
+    size_t stringArrIndex = 1;
+    stringArr[0] = req;
+    bool lastWasSplit = false;
+
+    for (int i = 0; req[i] != '\0'; i++)
     {
-        return NULL;
+        if (req[i] == '\r' || req[i] == '\n')
+        {
+            req[i] = '\0';
+            lastWasSplit = true;
+        }
+        else if (lastWasSplit)
+        {
+            stringArr[stringArrIndex++] = req + i;
+            lastWasSplit = false;
+            if (stringArrIndex == sizeofStringArr)
+            {
+                sizeofStringArr *= 2;
+                if ((stringArr = realloc(stringArr, sizeofStringArr)) == NULL)
+                {
+                    errno = ENOMEM;
+                    return NULL;
+                };
+            }
+        }
     }
 
-    str->len = len;
-    strcpy(str->str, cstr);
-
-    str->capacity = len;
-
-    return str;
+    stringArr[stringArrIndex] = NULL;
+    return stringArr;
 }
 
-String *InitString(char *cstr, String *str)
+bool StrStartsWith(char *string, char *subString, isize subStringLen)
 {
-    assert(str != NULL); /* UB. Officially not my fucking
-			    problem */
-    size_t l = strcpyi(str->str, cstr, str->capacity);
-
-    str->len = l;
-
-    return str;
+    if (subStringLen == NO_GIVEN_LEN)
+    {
+        subStringLen = strlen(subString);
+    }
+    return !strncmp(string, subString, subStringLen);
 }
 
-void DestroyString(String *str)
+bool streq(char *str1, char *str2)
 {
-    free(str);
+    return !strcmp(str1, str2);
+}
+
+bool strneq(char *str1, char *str2, size_t n)
+{
+    return !strncmp(str1, str2, n);
 }

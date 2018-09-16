@@ -53,6 +53,8 @@ local int ConnTypeToSockType(ConnType connType)
         return SOCK_DGRAM;
     }
 }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-align"
 
 local void *GetInAddr(_SockAddr *sa)
 {
@@ -66,7 +68,7 @@ local void *GetInAddr(_SockAddr *sa)
         return &(((struct sockaddr_in6 *)sa)->sin6_addr);
     }
 }
-
+#pragma clang diagnostic pop
 typedef struct
 {
     Socket s;
@@ -284,7 +286,11 @@ TCPSocket ConnectToTCPSocket(AddrInfo a)
 IpVer GetIpVer(AddrInfo a)
 {
     return (a->ai_family == AF_INET) ? IPV4 : IPV6;
+
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-align"
 
 const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength)
 {
@@ -303,7 +309,7 @@ const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength)
 
     return inet_ntop(a->ai_family, addr, ipstr, ipstrLength);
 }
-
+#pragma clang diagnostic pop
 void DestroyAddrInfo(AddrInfo a)
 {
     freeaddrinfo(a);
@@ -313,11 +319,9 @@ TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr)
 {
     if (theirAddr != NULL && theirAddr->_s == NULL)
     {
-    /* Initialize the theirAddr. */
+        /* Initialize the theirAddr. */
 
-#ifndef __clang_analyzer__
         theirAddr->_s = malloc(sizeof(struct sockaddr_storage));
-#endif
         theirAddr->_len = SOCKADDR_LENGTH_DEFAULT;
     }
 
@@ -338,36 +342,36 @@ int DestroySocket(Socket sock)
     return close(sock._s);
 }
 
-ssize_t TCPSendData(TCPSocket sock, const void *buf, size_t len)
+isize TCPSendData(TCPSocket sock, const void *buf, size_t len)
 {
     return send(sock._s, buf, len, 0);
 }
 
-ssize_t TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags)
+isize TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags)
 {
     return recv(sock._s, buf, len, ReadFlagsToRecvFlags(flags));
 }
 
-ssize_t UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
+isize UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
                     SockAddr *theirAddr)
 {
 
     if (theirAddr && !theirAddr->_s)
     {
-#ifndef __clang_analyzer__
+
         theirAddr->_s = malloc(sizeof(struct sockaddr_storage));
-#endif
+
         theirAddr->_len = sizeof(struct sockaddr_storage);
     }
     _SockAddr *lTheirAddr = theirAddr ? theirAddr->_s : NULL;
 
     socklen_t socklen = theirAddr ? theirAddr->_len : 0;
-    int ret = recvfrom(sock._s, buf, len, flags, lTheirAddr, &socklen);
+    int ret = recvfrom(sock._s, buf, len, ReadFlagsToRecvFlags(flags), lTheirAddr, &socklen);
 
     return ret;
 }
 
-ssize_t UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len, SockAddr s)
+isize UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len, SockAddr s)
 {
     return sendto(sock._s, buf, len, 0, s._s, s._len);
 }

@@ -1,29 +1,41 @@
 #ifndef STRING_H
 #define STRING_H
 #include "def.h"
-#include "string.h"
-
-typedef char *CStr;
-
-typedef struct ru_str
+#include <string.h>
+#ifdef __cplusplus
+extern "C"
 {
-    size_t len;
-    size_t capacity;
-    char str[];
-} String;
+#endif
 
-/* Accessors */
+    /*
+       func: StrStartsWith
 
-size_t StringLen(String *s);
+       Checks if string starts with subString. If you pass NO_GIVEN_LEN for the
+       subStringLen parameter we'll calculate the subString length for you,
+       otherwise we use what you pass for efficiencies sake.
+     */
+    bool StrStartsWith(char *string, char *subString, isize subStringLen);
 
-/* Constructors */
+    /*
+       func: SplitLines
 
-String *CreateString(char *cstr);
+       Splits the given string by line and returns an array of the pointers into
+       the string. The returned array must be freed after use or you'll leak memory
+     */
+    char **SplitLines(char *req);
 
-String *InitString(char *cstr, String *str);
+    /* strcmp and strncmp wrappers */
+    bool streq(char *str1, char *str2);
+    bool strneq(char *str1, char *str2, size_t n);
 
-void DestroyString(String *str);
+    /*
+       func:StrCpyAndLen
 
-/* Needs a better name */
-int strcpyi(char *restrict dest, const char *restrict src, size_t maxdeststrlen);
+       a version of strncpy that returns the length of the written string.
+     */
+    size_t StrCpyAndLen(char *restrict dest, const char *restrict src, size_t destBufLen);
+#ifdef __cplusplus
+}
+#endif
+
 #endif

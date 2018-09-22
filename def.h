@@ -72,4 +72,6 @@ typedef int64_t ssize_t;
 typedef intptr_t isize;
 typedef size_t usize;
 
+#define countof(x) (sizeof(x) / sizeof(x[0]))
+
 #endif

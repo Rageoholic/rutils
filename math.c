@@ -18,7 +18,7 @@ Vec3f NormalizeVec3f(Vec3f vec)
     return normalizedVec;
 }
 
-Mat4f MultiplyMatrices(const Mat4f *mat1, const Mat4f *mat2)
+Mat4f MultiplyMat4f(const Mat4f *mat1, const Mat4f *mat2)
 {
     /* TODO: SIMD operations as opposed to a ton of iteration */
     Mat4f ret = {0};
@@ -92,7 +92,7 @@ Mat4f RotateMat4f(const Mat4f *mat, float rads, Vec3f axis)
           {xz * (1 - cost) - y * sint, yz * (1 - cost) + x * sint,
            cost + zz * (1 - cost), 0},
           {0, 0, 0, 1}}};
-    return MultiplyMatrices(mat, &rotationMatrix);
+    return MultiplyMat4f(mat, &rotationMatrix);
 }
 
 Mat4f ScaleMat4f(const Mat4f *mat, Vec3f vec)
@@ -101,7 +101,7 @@ Mat4f ScaleMat4f(const Mat4f *mat, Vec3f vec)
     *IndexMat4f(&res, 0, 0) *= vec.x;
     *IndexMat4f(&res, 1, 1) *= vec.y;
     *IndexMat4f(&res, 2, 2) *= vec.z;
-    return MultiplyMatrices(mat, &res);
+    return MultiplyMat4f(mat, &res);
 }
 
 Mat4f TranslateMat4f(const Mat4f *mat, Vec3f vec)
@@ -111,7 +111,7 @@ Mat4f TranslateMat4f(const Mat4f *mat, Vec3f vec)
     *IndexMat4f(&res, 1, 3) += vec.y;
     *IndexMat4f(&res, 2, 3) += vec.z;
 
-    return MultiplyMatrices(mat, &res);
+    return MultiplyMat4f(mat, &res);
 }
 
 Vec3f CrossProductVec3f(Vec3f v1, Vec3f v2)
@@ -153,5 +153,5 @@ Mat4f CalcLookAtMat4f(Vec3f position, Vec3f target, Vec3f worldUp)
     rotation.e[2][2] = zaxis.z;
 
     // Return lookAt matrix as combination of translation and rotation matrix
-    return MultiplyMatrices(&rotation, &translation); // Remember to read from right to left (first translation then rotation)
+    return MultiplyMat4f(&rotation, &translation); // Remember to read from right to left (first translation then rotation)
 }

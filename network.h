@@ -32,7 +32,7 @@ extern "C"
 
     typedef struct
     {
-        const int _s;
+        int _s;
     } Socket;
 
     typedef Socket TCPSocket;
@@ -262,7 +262,7 @@ extern "C"
      */
 
     isize UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len,
-                        SockAddr theirAddr);
+                      SockAddr theirAddr);
 
     /*
      func: UDPRecvData
@@ -284,7 +284,7 @@ extern "C"
      */
 
     isize UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
-                        SockAddr *theirAddr);
+                      SockAddr *theirAddr);
 
     /* Accessors */
 

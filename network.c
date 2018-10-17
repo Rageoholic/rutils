@@ -286,7 +286,6 @@ TCPSocket ConnectToTCPSocket(AddrInfo a)
 IpVer GetIpVer(AddrInfo a)
 {
     return (a->ai_family == AF_INET) ? IPV4 : IPV6;
-
 }
 
 #pragma clang diagnostic push
@@ -353,7 +352,7 @@ isize TCPRecvData(TCPSocket sock, void *buf, size_t len, ReadFlags flags)
 }
 
 isize UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags,
-                    SockAddr *theirAddr)
+                  SockAddr *theirAddr)
 {
 
     if (theirAddr && !theirAddr->_s)

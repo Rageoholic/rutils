@@ -3,7 +3,7 @@
 #include "debug.h"
 #include "def.h"
 #include <math.h>
-#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062
+#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062f
 #ifdef __cplusplus
 extern "C"
 {
@@ -93,7 +93,7 @@ extern "C"
                                    {0, 1, 0, 0},
                                    {0, 0, 1, 0},
                                    {0, 0, 0, 1}}};
-    Mat4f MultiplyMatrices(const Mat4f *mat1, const Mat4f *mat2);
+    Mat4f MultiplyMat4f(const Mat4f *mat1, const Mat4f *mat2);
 
     int PrintVec3f(Vec3f vec);
 

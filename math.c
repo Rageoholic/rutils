@@ -18,6 +18,22 @@ Vec3f NormalizeVec3f(Vec3f vec)
     return normalizedVec;
 }
 
+Vec2f NormalizeVec2f(Vec2f vec)
+{
+    float len = sqrtf(vec.x * vec.x +
+                      vec.y * vec.y);
+
+    if (fabsf(len) < FLT_MIN)
+    {
+        return vec;
+    }
+
+    Vec2f normalizedVec = {vec.x / len,
+                           vec.y / len};
+
+    return normalizedVec;
+}
+
 Mat4f MultiplyMat4f(const Mat4f *mat1, const Mat4f *mat2)
 {
     /* TODO: SIMD operations as opposed to a ton of iteration */

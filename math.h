@@ -2,6 +2,7 @@
 #define RMATH_H
 #include "debug.h"
 #include "def.h"
+#include <float.h>
 #include <math.h>
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062f
 #ifdef __cplusplus
@@ -39,11 +40,23 @@ extern "C"
                        vec1.z + vec2.z};
     }
 
+    static inline Vec2f AddVec2f(Vec2f vec1, Vec2f vec2)
+    {
+        return (Vec2f){vec1.x + vec2.x,
+                       vec1.y + vec2.y};
+    }
+
     static inline Vec3f MultiplyScalarVec3f(Vec3f vec, float f)
     {
         return (Vec3f){vec.x * f,
                        vec.y * f,
                        vec.z * f};
+    }
+
+    static inline Vec2f MultiplyScalarVec2f(Vec2f vec, float f)
+    {
+        return (Vec2f){vec.x * f,
+                       vec.y * f};
     }
 
     static inline float DotProdVec3f(Vec3f a, Vec3f b)
@@ -68,6 +81,7 @@ extern "C"
     }
 
     Vec3f NormalizeVec3f(Vec3f vec);
+    Vec2f NormalizeVec2f(Vec2f vec);
 
     static inline float AbsFloat(float f)
     {
@@ -82,6 +96,11 @@ extern "C"
     static Vec3f vec3f(float x, float y, float z)
     {
         return (Vec3f){x, y, z};
+    }
+
+    static Vec2f vec2f(float x, float y)
+    {
+        return (Vec2f){x, y};
     }
 
     static float DegToRad(float deg)

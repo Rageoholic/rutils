@@ -1,15 +1,13 @@
 #ifndef RDEF_H
 #define RDEF_H
 
+#include <inttypes.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include <inttypes.h>
-
 
 #ifndef NDEBUG
 #define DEBUG 1
 #endif
-
 
 typedef int errcode;
 
@@ -53,7 +51,6 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
-
 typedef int_least8_t il8;
 typedef int_least16_t il16;
 typedef int_least32_t il32;
@@ -65,6 +62,9 @@ typedef int_fast32_t if32;
 typedef int_fast64_t if64;
 
 typedef unsigned char byte;
+
+typedef float f32;
+typedef double f64;
 
 /* Types and constants */
 
@@ -82,7 +82,6 @@ typedef int ReadFlags; /* Set of flags for reading files. See
 
 #define READ_NO_BLOCK 0x02 /* ReadFlags: Don't block on reading \
                               data from the descriptor */
-
 
 #ifdef __GNUC__
 #define DEPRECATED(func) func __attribute__((deprecated))

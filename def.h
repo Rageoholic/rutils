@@ -2,7 +2,7 @@
 #define RDEF_H
 
 #include <inttypes.h>
-#include <stdbool.h>
+
 #include <stddef.h>
 
 #ifndef NDEBUG
@@ -23,6 +23,18 @@ typedef int errcode;
 
 #ifdef __cplusplus
 #define restrict
+#endif
+
+#ifndef __cplusplus
+
+/* An actually tolerable bool type how do all these standards fuck this up my
+   god this isn't hard */
+#undef bool
+#define bool unsigned char
+#undef true
+#define true 1
+#undef false
+#define false 0
 #endif
 
 typedef uint8_t u8;

@@ -68,12 +68,12 @@ bool StrStartsWith(char *string, char *subString, isize subStringLen)
     return !strncmp(string, subString, subStringLen);
 }
 
-bool streq(char *str1, char *str2)
+bool streq(const char *str1, const char *str2)
 {
     return !strcmp(str1, str2);
 }
 
-bool strneq(char *str1, char *str2, size_t n)
+bool strneq(const char *str1, const char *str2, size_t n)
 {
     return !strncmp(str1, str2, n);
 }

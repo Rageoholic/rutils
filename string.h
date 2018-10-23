@@ -25,8 +25,8 @@ extern "C"
     char **SplitLines(char *req);
 
     /* strcmp and strncmp wrappers */
-    bool streq(char *str1, char *str2);
-    bool strneq(char *str1, char *str2, size_t n);
+    bool streq(const char *str1, const char *str2);
+    bool strneq(const char *str1, const char *str2, size_t n);
 
     /*
        func:StrCpyAndLen

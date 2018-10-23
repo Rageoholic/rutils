@@ -20,6 +20,7 @@ typedef int errcode;
 #undef ERROR_NO_MEMORY
 #define ERROR_NO_MEMORY 3
 #define ERROR_EXTERNAL_LIB 4
+#define ERROR_INVAL_PARAMETER 5
 
 #ifdef __cplusplus
 #define restrict

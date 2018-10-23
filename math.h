@@ -132,6 +132,9 @@ extern "C"
     }
     Vec3f CrossProductVec3f(Vec3f v1, Vec3f v2);
     Mat4f CreateOrthoMat4f(float left, float right, float bottom, float top);
+#define MAX_VAL(x, y) (x > y ? x : y)
+#define MIN_VAL(x, y) (x > y ? y : x)
+
 #ifdef __cplusplus
 }
 #endif

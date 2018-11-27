@@ -43,15 +43,15 @@ typedef uint16_t u16;
 typedef uint32_t u32;
 typedef uint64_t u64;
 
-typedef uint_least8_t ul8;
-typedef uint_least16_t ul16;
-typedef uint_least32_t ul32;
-typedef uint_least64_t ul64;
+typedef uint_least8_t uleast8;
+typedef uint_least16_t uleast16;
+typedef uint_least32_t uleast32;
+typedef uint_least64_t uleast64;
 
-typedef uint_fast8_t uf8;
-typedef uint_fast16_t uf16;
-typedef uint_fast32_t uf32;
-typedef uint_fast64_t uf64;
+typedef uint_fast8_t ufast8;
+typedef uint_fast16_t ufast16;
+typedef uint_fast32_t ufast32;
+typedef uint_fast64_t ufast64;
 
 /* I don't really end up using these. They're here for legacy */
 typedef int8_t s8;
@@ -64,15 +64,15 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
-typedef int_least8_t il8;
-typedef int_least16_t il16;
-typedef int_least32_t il32;
-typedef int_least64_t il64;
+typedef int_least8_t ilast8;
+typedef int_least16_t ilast16;
+typedef int_least32_t ilast32;
+typedef int_least64_t ilast64;
 
-typedef int_fast8_t if8;
-typedef int_fast16_t if16;
-typedef int_fast32_t if32;
-typedef int_fast64_t if64;
+typedef int_fast8_t ifast8;
+typedef int_fast16_t ifast16;
+typedef int_fast32_t ifast32;
+typedef int_fast64_t ifast64;
 
 typedef unsigned char byte;
 

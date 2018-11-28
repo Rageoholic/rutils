@@ -64,10 +64,10 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
-typedef int_least8_t ilast8;
-typedef int_least16_t ilast16;
-typedef int_least32_t ilast32;
-typedef int_least64_t ilast64;
+typedef int_least8_t ileast8;
+typedef int_least16_t ileast16;
+typedef int_least32_t ileast32;
+typedef int_least64_t ileast64;
 
 typedef int_fast8_t ifast8;
 typedef int_fast16_t ifast16;

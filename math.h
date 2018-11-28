@@ -25,6 +25,11 @@ extern "C"
         float x, y, z, w;
     } Vec4f;
 
+    typedef struct Vec2U32
+    {
+        u32 x, y;
+    } Vec2U32;
+
     typedef struct Mat4f
     {
         /* This is addressed mat.e[y][x]. Yes its stupid. We give you a function to
@@ -137,6 +142,27 @@ extern "C"
         Mat4f mat = CreatePerspectiveMat4f(rads, aspect, near, far);
         mat.e[1][1] *= -1;
         return mat;
+    }
+
+    local int F32Cmp(f32 f1, f32 f2, f32 err)
+    {
+        if (f1 - err > f2)
+        {
+            return 1;
+        }
+        else if (f1 + err < f2)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    local bool F32Eq(f32 f1, f32 f2, f32 err)
+    {
+        return F32Cmp(f1, f2, err) == 0;
     }
 #define MAX_VAL(x, y) (x > y ? x : y)
 #define MIN_VAL(x, y) (x > y ? y : x)

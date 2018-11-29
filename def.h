@@ -31,7 +31,11 @@ typedef int errcode;
 /* An actually tolerable bool type how do all these standards fuck this up my
    god this isn't hard */
 #undef bool
-#define bool unsigned char
+#ifndef __cplusplus
+typedef unsigned char bool;
+#endif
+#define bool bool
+
 #undef true
 #define true 1
 #undef false

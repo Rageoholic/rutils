@@ -135,6 +135,18 @@ extern "C"
     {
         return AddVec3f(v1, NegateVec3f(v2));
     }
+
+    static inline Vec2f NegateVec2f(Vec2f vec)
+    {
+        return (Vec2f){
+            -vec.x,
+            -vec.y};
+    }
+
+    static inline Vec2f SubVec2f(Vec2f v1, Vec2f v2)
+    {
+        return AddVec2f(v1, NegateVec2f(v2));
+    }
     Vec3f CrossProductVec3f(Vec3f v1, Vec3f v2);
     Mat4f CreateOrthoMat4f(float left, float right, float bottom, float top);
     local Mat4f CreateVulkanPerspectiveMat4f(float rads, float aspect, float near, float far)
@@ -163,6 +175,12 @@ extern "C"
     local bool F32Eq(f32 f1, f32 f2, f32 err)
     {
         return F32Cmp(f1, f2, err) == 0;
+    }
+
+    static Vec2U32 RoundVec2f(Vec2f vec)
+    {
+        return (Vec2U32){roundf(vec.x),
+                         roundf(vec.y)};
     }
 #define MAX_VAL(x, y) (x > y ? x : y)
 #define MIN_VAL(x, y) (x > y ? y : x)

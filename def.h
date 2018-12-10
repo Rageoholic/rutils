@@ -83,6 +83,8 @@ typedef unsigned char byte;
 typedef float f32;
 typedef double f64;
 
+typedef unsigned uint;
+
 /* Types and constants */
 
 #define local static  /* Function is local to the file */

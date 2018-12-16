@@ -1,4 +1,8 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+
 #define _XOPEN_SOURCE 1000
+#pragma clang diagnostic pop
 
 #include "network.h"
 #include <stdio.h>
@@ -69,11 +73,15 @@ local void *GetInAddr(_SockAddr *sa)
     }
 }
 #pragma clang diagnostic pop
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
 typedef struct
 {
     Socket s;
     AddrInfo p;
 } AITSTuple;
+#pragma clang diagnostic pop
 
 local AITSTuple AddrInfoToSocket(AddrInfo a)
 {
@@ -306,7 +314,7 @@ const char *GetIpStr(AddrInfo a, char *ipstr, size_t ipstrLength)
         addr = &(ipv6->sin6_addr);
     }
 
-    return inet_ntop(a->ai_family, addr, ipstr, ipstrLength);
+    return inet_ntop(a->ai_family, addr, ipstr, (socklen_t)ipstrLength);
 }
 #pragma clang diagnostic pop
 void DestroyAddrInfo(AddrInfo a)
@@ -333,7 +341,7 @@ TCPSocket AcceptConnection(TCPSocket sock, SockAddr *theirAddr)
 
 const char *SockAddrToStr(SockAddr *addr, char *dst)
 {
-    return inet_ntop(addr->_s->sa_family, GetInAddr(addr->_s), dst, addr->_len);
+    return inet_ntop(addr->_s->sa_family, GetInAddr(addr->_s), dst, (socklen_t)addr->_len);
 }
 
 int DestroySocket(Socket sock)
@@ -364,15 +372,15 @@ isize UDPRecvData(UDPListenerSocket sock, void *buf, size_t len, ReadFlags flags
     }
     _SockAddr *lTheirAddr = theirAddr ? theirAddr->_s : NULL;
 
-    socklen_t socklen = theirAddr ? theirAddr->_len : 0;
-    int ret = recvfrom(sock._s, buf, len, ReadFlagsToRecvFlags(flags), lTheirAddr, &socklen);
+    socklen_t socklen = theirAddr ? (socklen_t)theirAddr->_len : 0;
+    isize ret = recvfrom(sock._s, buf, len, ReadFlagsToRecvFlags(flags), lTheirAddr, &socklen);
 
     return ret;
 }
 
 isize UDPSendData(UDPTalkerSocket sock, const void *buf, size_t len, SockAddr s)
 {
-    return sendto(sock._s, buf, len, 0, s._s, s._len);
+    return sendto(sock._s, buf, len, 0, s._s, (socklen_t)s._len);
 }
 
 void PrintError(char *error)

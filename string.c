@@ -63,9 +63,9 @@ bool StrStartsWith(char *string, char *subString, isize subStringLen)
 {
     if (subStringLen == NO_GIVEN_LEN)
     {
-        subStringLen = strlen(subString);
+        subStringLen = (isize)strlen(subString);
     }
-    return !strncmp(string, subString, subStringLen);
+    return !strncmp(string, subString, (usize)subStringLen);
 }
 
 bool streq(const char *str1, const char *str2)

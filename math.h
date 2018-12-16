@@ -179,8 +179,8 @@ extern "C"
 
     static Vec2U32 RoundVec2f(Vec2f vec)
     {
-        return (Vec2U32){roundf(vec.x),
-                         roundf(vec.y)};
+        return (Vec2U32){(u32)lrintf(vec.x),
+                         (u32)lrintf(vec.y)};
     }
 #define MAX_VAL(x, y) (x > y ? x : y)
 #define MIN_VAL(x, y) (x > y ? y : x)

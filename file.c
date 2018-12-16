@@ -14,14 +14,14 @@
 
 #include <sys/mman.h>
 
-char *BaseName(char *restrict destBuf, ssize_t destBufLen,
-               const char *restrict pathstr, ssize_t pathstrlen)
+char *BaseName(char *restrict destBuf, isize destBufLen,
+               const char *restrict pathstr, isize pathstrlen)
 {
     if (pathstrlen == NO_GIVEN_LEN)
     {
-        pathstrlen = strlen(pathstr);
+        pathstrlen = (isize)strlen(pathstr);
     }
-    int baseStrIndex = 0;
+    isize baseStrIndex = 0;
     for (baseStrIndex = pathstrlen; baseStrIndex > 0; baseStrIndex--)
     {
         if (pathstr[baseStrIndex] == '/' || pathstr[baseStrIndex] == '\\')
@@ -30,12 +30,12 @@ char *BaseName(char *restrict destBuf, ssize_t destBufLen,
             break;
         }
     }
-    StrCpyAndLen(destBuf, &pathstr[baseStrIndex], destBufLen);
+    StrCpyAndLen(destBuf, &pathstr[baseStrIndex], (size_t)destBufLen);
 
     return destBuf;
 }
 
-char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *mappingSize)
+char *MapFileToROBuffer(const char *filename, void *addrHint, isize *mappingSize)
 {
     int fd = open(filename, O_RDONLY);
 
@@ -51,9 +51,9 @@ char *MapFileToROBuffer(const char *filename, void *addrHint, ssize_t *mappingSi
         return NULL;
     }
 
-    ssize_t fileSize = st.st_size + 1;
+    isize fileSize = st.st_size + 1;
 
-    char *fileBuf = mmap(addrHint, fileSize, PROT_READ, MAP_PRIVATE, fd, 0);
+    char *fileBuf = mmap(addrHint, (usize)fileSize, PROT_READ, MAP_PRIVATE, fd, 0);
 
     if (mappingSize)
     {

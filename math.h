@@ -149,12 +149,7 @@ extern "C"
     }
     Vec3f CrossProductVec3f(Vec3f v1, Vec3f v2);
     Mat4f CreateOrthoMat4f(float left, float right, float bottom, float top);
-    local Mat4f CreateVulkanPerspectiveMat4f(float rads, float aspect, float near, float far)
-    {
-        Mat4f mat = CreatePerspectiveMat4f(rads, aspect, near, far);
-        mat.e[1][1] *= -1;
-        return mat;
-    }
+    Mat4f CreateVulkanPerspectiveMat4f(float rads, float aspect, float near, float far);
 
     local int F32Cmp(f32 f1, f32 f2, f32 err)
     {

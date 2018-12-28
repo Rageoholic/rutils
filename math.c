@@ -171,3 +171,10 @@ Mat4f CalcLookAtMat4f(Vec3f position, Vec3f target, Vec3f worldUp)
     // Return lookAt matrix as combination of translation and rotation matrix
     return MultiplyMat4f(&rotation, &translation); // Remember to read from right to left (first translation then rotation)
 }
+
+Mat4f CreateVulkanPerspectiveMat4f(float rads, float aspect, float near, float far)
+{
+    Mat4f mat = CreatePerspectiveMat4f(rads, aspect, near, far);
+    mat.e[1][1] *= -1;
+    return mat;
+}

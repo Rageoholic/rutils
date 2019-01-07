@@ -57,12 +57,6 @@ typedef uint_fast16_t ufast16;
 typedef uint_fast32_t ufast32;
 typedef uint_fast64_t ufast64;
 
-/* I don't really end up using these. They're here for legacy */
-typedef int8_t s8;
-typedef int16_t s16;
-typedef int32_t s32;
-typedef int64_t s64;
-
 typedef int8_t i8;
 typedef int16_t i16;
 typedef int32_t i32;

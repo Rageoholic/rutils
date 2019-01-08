@@ -11,13 +11,15 @@
         abort();                                                                \
     } while (0);
 
-#define INVARIANT(expr, str)                                                               \
-    do                                                                                     \
-    {                                                                                      \
-        if (!(expr))                                                                       \
-        {                                                                                  \
-            fprintf(stderr, "Invariant violated at %s:%d: %s\n", __FILE__, __LINE__, str); \
-            abort();                                                                       \
-        }                                                                                  \
+#define INVARIANT(expr, str)                                            \
+    do                                                                  \
+    {                                                                   \
+        if (!(expr))                                                    \
+        {                                                               \
+            fprintf(stderr, "Invariant violated at %s:%d: %s\n",        \
+                    __FILE__, __LINE__, str);                           \
+            abort();                                                    \
+        }                                                               \
     } while (0)
 #endif
+

@@ -11,6 +11,11 @@ Vec3f NormalizeVec3f(Vec3f vec)
     float len = sqrtf(vec.x * vec.x +
                       vec.y * vec.y +
                       vec.z * vec.z);
+    
+    if(F32Eq(len, 0.0f, FLT_EPSILON))
+    {
+	return (Vec3f) {0,0,0};
+    }
 
     Vec3f normalizedVec = {vec.x / len,
                            vec.y / len,
@@ -23,10 +28,11 @@ Vec2f NormalizeVec2f(Vec2f vec)
     float len = sqrtf(vec.x * vec.x +
                       vec.y * vec.y);
 
-    if (fabsf(len) < FLT_MIN)
+    if(F32Eq(len, 0.0f, FLT_EPSILON))
     {
-        return vec;
+	return (Vec2f) {0,0};
     }
+
 
     Vec2f normalizedVec = {vec.x / len,
                            vec.y / len};

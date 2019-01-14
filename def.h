@@ -114,4 +114,9 @@ typedef size_t usize;
 
 #define countof(x) (sizeof(x) / sizeof(x[0]))
 
+#define KILOBYTES(x) (1024 * (x))
+#define MEGABYTES(x) (1024 * (KILOBYTES(x)))
+#define GIGABYTES(x) (1024L * (MEGABYTES(x)))
+
+
 #endif

@@ -1,9 +1,10 @@
 #ifndef RMATH_H
 #define RMATH_H
-#include "debug.h"
+
 #include "def.h"
 #include <float.h>
 #include <math.h>
+#include <assert.h>
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062f
 #ifdef __cplusplus
 extern "C"

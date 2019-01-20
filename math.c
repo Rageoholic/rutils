@@ -1,5 +1,6 @@
 #include "math.h"
 #include <math.h>
+#include <stdio.h>
 
 int PrintVec3f(Vec3f vec)
 {

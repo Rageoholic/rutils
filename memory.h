@@ -37,6 +37,9 @@ static void *IntegerToPointer(uintptr_t i)
 void *AllocFromMemStackAligned(MemStack *stack, usize numElems, usize elemSize, usize elemAlign);
 void *AllocFromMemStack(MemStack *stack, usize numElems, usize elemSize);
 
+void *AllocFromMemStackAlignedZeroed(MemStack *stack, usize numElems, usize elemSize, usize elemAlign);
+void *AllocFromMemStackZeroed(MemStack *stack, usize numElems, usize elemSize);
+
 MemStackFrame SaveMemStackFrame(MemStack *stack);
 
 void RestoreMemStackFrame(MemStack *stack, MemStackFrame frame);

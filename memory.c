@@ -42,3 +42,16 @@ MemStack InitializeMemstack(void *stackMem, usize stackSize, usize alignment)
     MemStack ret = {stackMem, stackMem, alignment, stackSize};
     return ret;
 }
+
+void *AllocFromMemStackZeroed(MemStack *stack, usize numElems, usize elemSize)
+{
+    void *ret = AllocFromMemStack(stack, numElems, elemSize);
+    memset(ret, 0, numElems * elemSize);
+    return ret;
+}
+void *AllocFromMemStackAlignedZeroed(MemStack *stack, usize numElems, usize elemSize, usize elemAlign)
+{
+    void *ret = AllocFromMemStackAligned(stack, numElems, elemSize, elemAlign);
+    memset(ret, 0, numElems * elemSize);
+    return ret;
+}

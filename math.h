@@ -184,6 +184,7 @@ static Vec2U32 RoundVec2f(Vec2f vec)
 }
 #define MAX_VAL(x, y) (x > y ? x : y)
 #define MIN_VAL(x, y) (x > y ? y : x)
+#define CLAMP_VAL(low, val, high) MAX_VAL(low, MIN_VAL(val, high))
 
 #ifdef __cplusplus
 }

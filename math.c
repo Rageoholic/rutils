@@ -66,11 +66,15 @@ Mat4f MultiplyMat4f(const Mat4f *mat1, const Mat4f *mat2)
 
 Mat4f CreatePerspectiveMat4f(float fov, float aspect, float near, float far)
 {
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
     /* We turn off this warning because we're just looking for literal zero */
     assert(fov > 0 && aspect != 0);
+#ifdef __clang__
 #pragma clang diagnostic pop
+#endif
     float xScale = (float)1 / tanf(fov / 2) / aspect;
     float yScale = xScale * aspect;
     float frustumLength = far - near;
